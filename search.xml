@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello-world</title>
+    <url>/2022/05/08/Hello-world-0/</url>
+    <content><![CDATA[<p>Hello,  world !</p>
+<p>这是我的第一篇blog</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">code snippet  </span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">close</span>()</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><figcaption><span>Array.map</span></figcaption><table><tr><td class="code"><pre><span class="line">array.map(callback[, thisArg])</span><br></pre></td></tr></table></figure>
+
+
+<!-- <iframe src="https://www.baidu.com/" width="[width]" height="[height]" frameborder="0" loading="lazy" allowfullscreen></iframe> -->
+
+
+<p><img src="/images/header.jpg"></p>
+]]></content>
+  </entry>
+</search>
