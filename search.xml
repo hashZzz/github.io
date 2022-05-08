@@ -13,11 +13,19 @@
 
 <figure class="highlight plaintext"><figcaption><span>Array.map</span></figcaption><table><tr><td class="code"><pre><span class="line">array.map(callback[, thisArg])</span><br></pre></td></tr></table></figure>
 
+<blockquote class="blockquote-center">
+            <p>Something</p>
+
+          </blockquote>
+
+<a class="btn" href="https://www.baidu.com" title="[title]">
+            <i class="fa fa-icon [class]"></i>text
+          </a>
 
 <!-- <iframe src="https://www.baidu.com/" width="[width]" height="[height]" frameborder="0" loading="lazy" allowfullscreen></iframe> -->
 
 
-<p><img src="/images/header.jpg"></p>
+<p><img data-src="/images/header.jpg"></p>
 ]]></content>
   </entry>
 </search>
