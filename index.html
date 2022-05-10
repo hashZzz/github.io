@@ -184,6 +184,65 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/10/canvas-water-print/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="肥嘟嘟左卫门">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/10/canvas-water-print/" class="post-title-link" itemprop="url">canvas-water-print</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-10 21:37:10 / 修改时间：21:54:16" itemprop="dateCreated datePublished" datetime="2022-05-10T21:37:10+08:00">2022-05-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><big><strong>Canvas生产base64的水印</strong></big></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setWaterPrint</span>(<span class="params">str, elem, fs, color</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(elem &amp;&amp; elem.<span class="property">nodeType</span>) &#123;</span><br><span class="line">        elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Invalid Target&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.<span class="property">width</span> = <span class="number">250</span>;</span><br><span class="line">    canvas.<span class="property">height</span> = <span class="number">200</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">rotate</span>( (<span class="title class_">Math</span>.<span class="property">PI</span> * - <span class="number">10</span>) / <span class="number">180</span> );</span><br><span class="line">    ctx.<span class="property">font</span> = fs || <span class="string">&#x27;16px Microsoft YaHei&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = color || <span class="string">&#x27;rgba(200,200,200, 0.3)&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&#x27;center&#x27;</span></span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&#x27;Middle&#x27;</span>;</span><br><span class="line">    ctx.<span class="title function_">fillText</span>(str, canvas.<span class="property">width</span> / <span class="number">10</span>, canvas.<span class="property">height</span> / <span class="number">2</span>);</span><br><span class="line">    elem.<span class="property">style</span>.<span class="property">backgroundImage</span> = <span class="string">&quot;url(&quot;</span> + can.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绑定到Dom上</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/08/Hello-world-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -327,9 +386,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
