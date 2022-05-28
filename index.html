@@ -184,6 +184,143 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/vue-router4-addRoute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/28/vue-router4-addRoute/" class="post-title-link" itemprop="url">vue-router4-addRoute</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：20:46:51" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue3搭配Vue-Router4-动态添加路由调整"><a href="#Vue3搭配Vue-Router4-动态添加路由调整" class="headerlink" title="Vue3搭配Vue-Router4 动态添加路由调整"></a>Vue3搭配Vue-Router4 动态添加路由调整</h2><hr>
+<p>Vue-Router4 删除了addRoutes方法，提供了addRoute方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//添加一条路由记录 如果路由有一个 name，并且已经有一个与之名字相同的路由，它会先删除之前的路由。 </span></span><br><span class="line"><span class="title function_">addRoute</span>(<span class="attr">parentName</span>: string | symbol, <span class="attr">route</span>: <span class="title class_">RouteRecordRaw</span>): <span class="function">() =&gt;</span> <span class="keyword">void</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>在 router.beforeEach 中判断权限和信息之后，调用addRoute方法</p>
+<p>不同的是需要配置一个条件用来结束循环 搭配<blockquote class="blockquote-center">
+            <p>next({…to, replace: true })</p>
+
+          </blockquote></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加404匹配</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flag = <span class="literal">false</span>;</span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to,<span class="keyword">from</span>,next</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!flag) &#123;</span><br><span class="line">        <span class="comment">//异步代码回调中执行以下操作</span></span><br><span class="line">        router.<span class="title function_">addRoute</span>(&#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&quot;/:catchAll(.*)*&quot;</span>,</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;@/component&#x27;</span>)</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        dynamicRoutes.<span class="title function_">forEach</span>(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span><br><span class="line">            router.<span class="title function_">addRoute</span>(route.<span class="property">parent</span>, route)</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 动态路由添加完成后修改flag，表明已经添加完成 正常调用next方法</span></span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">        <span class="title function_">next</span>(&#123; ...to, <span class="attr">replace</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">next</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/22/task-context/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/22/task-context/" class="post-title-link" itemprop="url">task-context</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-22 22:09:31" itemprop="dateCreated datePublished" datetime="2022-05-22T22:09:31+08:00">2022-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-28 13:12:51" itemprop="dateModified" datetime="2022-05-28T13:12:51+08:00">2022-05-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>异步任务中存在宏任务和微任务</p>
+<p>执行顺序</p>
+<p>同步任务=&gt; 异步任务</p>
+<p>同步代码执行<br>遇见宏任务 放入宏任务队列<br>遇见微任务 放入微任务队列<br>当执行栈为空时<br>取出微任务执行<br>微任务执行完后<br>取出宏任务执行<br>每个宏任务之后会检查微任务队列，清空微任务再执行宏任务</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/19/form-component/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -452,7 +589,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
