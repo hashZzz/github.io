@@ -184,6 +184,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/prototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/28/prototype/" class="post-title-link" itemprop="url">prototype</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-28 21:19:51" itemprop="dateCreated datePublished" datetime="2022-05-28T21:19:51+08:00">2022-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-29 10:07:45" itemprop="dateModified" datetime="2022-05-29T10:07:45+08:00">2022-05-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Prototype-原型和原型链"><a href="#Prototype-原型和原型链" class="headerlink" title="Prototype 原型和原型链"></a>Prototype 原型和原型链</h2><p>原型和原型链我理解要从New关键字说起<br>我们通过New关键字创造实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 创造了一个newObject 我们打印这个对象看看</span></span><br><span class="line"><span class="keyword">const</span> newObj = <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="/images/prototype.png"></p>
+<p>New首先创建了一个对象<br>执行构造函数里面的代码并给对象设置了prototype<br>绑定了this到对象上，设置constructor指向构造函数<br>最后把新对象返回出来</p>
+<p>我们来简单模拟一下new</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function myNew(target) &#123;</span><br><span class="line">    const newTarget = Object.create(targetFn.prototype);</span><br><span class="line">    // 获取参数</span><br><span class="line">    const args = Array.from(arguments).slice(1);</span><br><span class="line">    // 绑定this</span><br><span class="line">    const value = targetFn.apply(newTarget, args);</span><br><span class="line">    // 判断返回值是不是对象</span><br><span class="line">    const targetType = Object.prototype.toString.call(value).slice(8, -1)</span><br><span class="line">    if([&#x27;Function&#x27;, &#x27;Object&#x27;].includes(targetType)) &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return newTarget</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>构造函数通过prototype指向原型对象<br>构造函数创造的实例通过__protot__访问原型对象<br>prototype原型对象通过constructor指向构造函数<br>构造函数通过__proto__访问Object.prototype上的方法<br>Object的prototype隐式指向null<br>而JS中的继承就是以实例的prototype作为父类向下传递的<br>这种链式关系我理解就是原型链</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/vue-router4-addRoute/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,7 +282,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：20:46:51" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
+              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：21:17:55" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
             </span>
 
           
@@ -229,10 +302,9 @@
 
 
 <p>在 router.beforeEach 中判断权限和信息之后，调用addRoute方法</p>
-<p>不同的是需要配置一个条件用来结束循环 搭配<blockquote class="blockquote-center">
-            <p>next({…to, replace: true })</p>
+<p>不同的是需要配置一个条件用来结束循环 搭配以下next写法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line">next(&#123;...to, replace: true &#125;)</span><br></pre></td></tr></table></figure>
 
-          </blockquote></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加404匹配</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flag = <span class="literal">false</span>;</span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to,<span class="keyword">from</span>,next</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!flag) &#123;</span><br><span class="line">        <span class="comment">//异步代码回调中执行以下操作</span></span><br><span class="line">        router.<span class="title function_">addRoute</span>(&#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&quot;/:catchAll(.*)*&quot;</span>,</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;@/component&#x27;</span>)</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        dynamicRoutes.<span class="title function_">forEach</span>(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span><br><span class="line">            router.<span class="title function_">addRoute</span>(route.<span class="property">parent</span>, route)</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 动态路由添加完成后修改flag，表明已经添加完成 正常调用next方法</span></span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">        <span class="title function_">next</span>(&#123; ...to, <span class="attr">replace</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">next</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
@@ -284,7 +356,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-28 13:12:51" itemprop="dateModified" datetime="2022-05-28T13:12:51+08:00">2022-05-28</time>
+                <time title="修改时间：2022-05-28 21:18:08" itemprop="dateModified" datetime="2022-05-28T21:18:08+08:00">2022-05-28</time>
               </span>
 
           
@@ -344,10 +416,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-19 21:48:41 / 修改时间：22:29:42" itemprop="dateCreated datePublished" datetime="2022-05-19T21:48:41+08:00">2022-05-19</time>
+              <time title="创建时间：2022-05-19 21:48:41" itemprop="dateCreated datePublished" datetime="2022-05-19T21:48:41+08:00">2022-05-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-28 21:18:14" itemprop="dateModified" datetime="2022-05-28T21:18:14+08:00">2022-05-28</time>
+              </span>
 
           
 
@@ -410,10 +488,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-10 21:37:10 / 修改时间：21:54:16" itemprop="dateCreated datePublished" datetime="2022-05-10T21:37:10+08:00">2022-05-10</time>
+              <time title="创建时间：2022-05-10 21:37:10" itemprop="dateCreated datePublished" datetime="2022-05-10T21:37:10+08:00">2022-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-28 21:18:23" itemprop="dateModified" datetime="2022-05-28T21:18:23+08:00">2022-05-28</time>
+              </span>
 
           
 
@@ -589,14 +673,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -29,9 +29,9 @@
 <meta property="og:description" content="Vue3搭配Vue-Router4 动态添加路由调整 Vue-Router4 删除了addRoutes方法，提供了addRoute方法 1234&#x2F;&#x2F;添加一条路由记录 如果路由有一个 name，并且已经有一个与之名字相同的路由，它会先删除之前的路由。 addRoute(parentName: string | symbol, route: RouteRecordRaw): () &#x3D;&gt; void">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-28T05:13:20.000Z">
-<meta property="article:modified_time" content="2022-05-28T12:46:51.901Z">
+<meta property="article:modified_time" content="2022-05-28T13:17:55.399Z">
 <meta property="article:author" content="😈Ray">
-<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Vue3">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://hashzzz.github.io/2022/05/28/vue-router4-addRoute/">
@@ -213,7 +213,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：20:46:51" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
+              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：21:17:55" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
             </span>
 
           
@@ -233,10 +233,9 @@
 
 
 <p>在 router.beforeEach 中判断权限和信息之后，调用addRoute方法</p>
-<p>不同的是需要配置一个条件用来结束循环 搭配<blockquote class="blockquote-center">
-            <p>next({…to, replace: true })</p>
+<p>不同的是需要配置一个条件用来结束循环 搭配以下next写法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line">next(&#123;...to, replace: true &#125;)</span><br></pre></td></tr></table></figure>
 
-          </blockquote></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加404匹配</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flag = <span class="literal">false</span>;</span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to,<span class="keyword">from</span>,next</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!flag) &#123;</span><br><span class="line">        <span class="comment">//异步代码回调中执行以下操作</span></span><br><span class="line">        router.<span class="title function_">addRoute</span>(&#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&quot;/:catchAll(.*)*&quot;</span>,</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;@/component&#x27;</span>)</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        dynamicRoutes.<span class="title function_">forEach</span>(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span><br><span class="line">            router.<span class="title function_">addRoute</span>(route.<span class="property">parent</span>, route)</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 动态路由添加完成后修改flag，表明已经添加完成 正常调用next方法</span></span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">        <span class="title function_">next</span>(&#123; ...to, <span class="attr">replace</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">next</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
@@ -245,9 +244,18 @@
     
     
       
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\19\form-component\" rel="bookmark">formComponent</a></div>
+    </li>
+  </ul>
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Vue3/" rel="tag"># Vue3</a>
+          </div>
 
         
 
@@ -258,7 +266,10 @@
     <a href="/2022/05/22/task-context/" rel="prev" title="task-context">
       <i class="fa fa-chevron-left"></i> task-context
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/28/prototype/" rel="next" title="prototype">
+      prototype <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -332,14 +343,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
