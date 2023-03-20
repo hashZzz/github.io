@@ -21,16 +21,20 @@
     var CONFIG = {"hostname":"hashzzz.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="DJ1-1 1vU">
-<meta property="og:url" content="http://hashzzz.github.io/tags/Canvas/index.html">
+  <meta name="description" content="在CRA中创建一个mock-server的接口服务，目的为了在离线状态下启动，能够调用本地的JSON文件 第一步区分环境变量我们需要将离线环境和正常网络环境区分开来 12345678&#x2F;&#x2F; 使用了cross-env包区分 科普&#x2F;&#x2F; npm i cross-env -D&#x2F;&#x2F; REACT_APP 开头的可以被识别&quot;start&quot;: &quot;cross-env REACT_APP_E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mock-server">
+<meta property="og:url" content="http://hashzzz.github.io/2022/06/14/mock-server/index.html">
 <meta property="og:site_name" content="DJ1-1 1vU">
+<meta property="og:description" content="在CRA中创建一个mock-server的接口服务，目的为了在离线状态下启动，能够调用本地的JSON文件 第一步区分环境变量我们需要将离线环境和正常网络环境区分开来 12345678&#x2F;&#x2F; 使用了cross-env包区分 科普&#x2F;&#x2F; npm i cross-env -D&#x2F;&#x2F; REACT_APP 开头的可以被识别&quot;start&quot;: &quot;cross-env REACT_APP_E">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-14T13:22:59.000Z">
+<meta property="article:modified_time" content="2022-06-18T04:11:36.326Z">
 <meta property="article:author" content="😈Ray">
 <meta property="article:tag" content="Blog">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://hashzzz.github.io/tags/Canvas/">
+<link rel="canonical" href="http://hashzzz.github.io/2022/06/14/mock-server/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: Canvas | DJ1-1 1vU</title>
+  <title>mock-server | DJ1-1 1vU</title>
   
 
 
@@ -178,57 +182,102 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">Canvas
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/06/14/mock-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mock-server
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-14 21:22:59" itemprop="dateCreated datePublished" datetime="2022-06-14T21:22:59+08:00">2022-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-18 12:11:36" itemprop="dateModified" datetime="2022-06-18T12:11:36+08:00">2022-06-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <p>在CRA中创建一个mock-server的接口服务，目的为了在离线状态下启动，能够调用本地的JSON文件</p>
+<h2 id="第一步区分环境变量"><a href="#第一步区分环境变量" class="headerlink" title="第一步区分环境变量"></a>第一步区分环境变量</h2><p>我们需要将离线环境和正常网络环境区分开来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 使用了cross-env包区分 科普</span></span><br><span class="line"><span class="comment">// npm i cross-env -D</span></span><br><span class="line"><span class="comment">// REACT_APP 开头的可以被识别</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;start&quot;</span>: <span class="string">&quot;cross-env REACT_APP_ENV=DEVELOPMENT react-app-rewired start&quot;</span></span><br><span class="line"><span class="string">&quot;local&quot;</span>: <span class="string">&quot;cross-env REACT_APP_ENV=LOCAL react-app-rewired start&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>使用overrides文件的方法mergeOptions到webpack.config.js里面去<br>执行<code>npm i customize-cra -D</code><br>在根目录下创建config-overrides.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//config.overrides.js</span></span><br><span class="line"><span class="keyword">const</span> &#123; overrideDevServer &#125; = <span class="built_in">require</span>(<span class="string">&#x27;customize-cra&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">devServerConfig</span> = (<span class="params"></span>) =&gt; <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">devServer</span>: <span class="title function_">overrideDevServer</span>(<span class="title function_">devServerConfig</span>()),</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="思路理一理"><a href="#思路理一理" class="headerlink" title="思路理一理"></a>思路理一理</h2><p>1、根据环境遍历区分是离线模式（调用本地JSON) 在线模式（middleware调用接口）<br>2、离线模式=&gt;调用接口=&gt;读取本地JSON<br>3、在线模式=&gt;调用接口=&gt;获取返回报文写入JSON</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs-extra&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fetch = <span class="built_in">require</span>(<span class="string">&#x27;node-fetch&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">&#x27;body-parser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> packageData = <span class="built_in">require</span>(<span class="string">&#x27;./package.json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; overrideDevServer &#125; = <span class="built_in">require</span>(<span class="string">&#x27;customize-cra&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> currHost = <span class="string">&#x27;http://localhost:3000&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> proxyTarget;</span><br><span class="line"><span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">REACT_APP_ENV</span> === <span class="string">&#x27;DEVELOPMENT&#x27;</span>) &#123;</span><br><span class="line">  proxyTarget = packageData.<span class="property">proxy</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-05-10T21:37:10+08:00"
-              content="2022-05-10">
-          05-10
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/05/10/canvas-water-print/" itemprop="url">
-            <span itemprop="name">canvas-water-print</span>
-          </a>
-      </div>
+      <footer class="post-footer">
 
-    </header>
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/29/vue-array/" rel="prev" title="vue-array">
+      <i class="fa fa-chevron-left"></i> vue-array
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -275,6 +324,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E5%8C%BA%E5%88%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">第一步区分环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E7%90%86%E4%B8%80%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">思路理一理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -484,6 +534,25 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '1d6aa0adf73f958423e4',
+      clientSecret: '553772a09805e5a1f75e2620e5773a64cb743f0e',
+      repo        : 'hashzzz.github.io',
+      owner       : 'hashZzz',
+      admin       : ['hashZzz'],
+      id          : 'e6b099fea13449ef1c63393bd8196d59',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
     </div>
 </body>

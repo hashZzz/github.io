@@ -184,6 +184,355 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/06/14/mock-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/14/mock-server/" class="post-title-link" itemprop="url">mock-server</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-14 21:22:59" itemprop="dateCreated datePublished" datetime="2022-06-14T21:22:59+08:00">2022-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-18 12:11:36" itemprop="dateModified" datetime="2022-06-18T12:11:36+08:00">2022-06-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在CRA中创建一个mock-server的接口服务，目的为了在离线状态下启动，能够调用本地的JSON文件</p>
+<h2 id="第一步区分环境变量"><a href="#第一步区分环境变量" class="headerlink" title="第一步区分环境变量"></a>第一步区分环境变量</h2><p>我们需要将离线环境和正常网络环境区分开来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 使用了cross-env包区分 科普</span></span><br><span class="line"><span class="comment">// npm i cross-env -D</span></span><br><span class="line"><span class="comment">// REACT_APP 开头的可以被识别</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;start&quot;</span>: <span class="string">&quot;cross-env REACT_APP_ENV=DEVELOPMENT react-app-rewired start&quot;</span></span><br><span class="line"><span class="string">&quot;local&quot;</span>: <span class="string">&quot;cross-env REACT_APP_ENV=LOCAL react-app-rewired start&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>使用overrides文件的方法mergeOptions到webpack.config.js里面去<br>执行<code>npm i customize-cra -D</code><br>在根目录下创建config-overrides.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//config.overrides.js</span></span><br><span class="line"><span class="keyword">const</span> &#123; overrideDevServer &#125; = <span class="built_in">require</span>(<span class="string">&#x27;customize-cra&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">devServerConfig</span> = (<span class="params"></span>) =&gt; <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">devServer</span>: <span class="title function_">overrideDevServer</span>(<span class="title function_">devServerConfig</span>()),</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="思路理一理"><a href="#思路理一理" class="headerlink" title="思路理一理"></a>思路理一理</h2><p>1、根据环境遍历区分是离线模式（调用本地JSON) 在线模式（middleware调用接口）<br>2、离线模式=&gt;调用接口=&gt;读取本地JSON<br>3、在线模式=&gt;调用接口=&gt;获取返回报文写入JSON</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs-extra&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fetch = <span class="built_in">require</span>(<span class="string">&#x27;node-fetch&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">&#x27;body-parser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> packageData = <span class="built_in">require</span>(<span class="string">&#x27;./package.json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; overrideDevServer &#125; = <span class="built_in">require</span>(<span class="string">&#x27;customize-cra&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> currHost = <span class="string">&#x27;http://localhost:3000&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> proxyTarget;</span><br><span class="line"><span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">REACT_APP_ENV</span> === <span class="string">&#x27;DEVELOPMENT&#x27;</span>) &#123;</span><br><span class="line">  proxyTarget = packageData.<span class="property">proxy</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/vue-array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/vue-array/" class="post-title-link" itemprop="url">vue-array</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-29 20:08:10 / 修改时间：20:36:31" itemprop="dateCreated datePublished" datetime="2022-05-29T20:08:10+08:00">2022-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue数组是怎么实现响应式的"><a href="#Vue数组是怎么实现响应式的" class="headerlink" title="Vue数组是怎么实现响应式的"></a>Vue数组是怎么实现响应式的</h2><p>Vue2中 响应式是通过Object.defineProperty(target,key config)方法，在getter和setter中添加依赖和监听来实现响应式的，但是在数组中对下标进行修改无法触发响应式</p>
+<p>官网：<br>Vue 不能检测以下数组的变动：<br>当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue<br>当你修改数组的长度时，例如：vm.items.length = newLength</p>
+<p>Vue2中重写了push,pop,shift,unshift,splice,sort,reverse 使得数组改变时能够触发响应式，把原先Array.prototype进行备份，再进行重写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> methodsNeedChange = [<span class="string">&#x27;push&#x27;</span>,<span class="string">&#x27;pop&#x27;</span>,<span class="string">&#x27;unshift&#x27;</span>,<span class="string">&#x27;shift&#x27;</span>,<span class="string">&#x27;sort&#x27;</span>,<span class="string">&#x27;reverse&#x27;</span>,<span class="string">&#x27;splice&#x27;</span>]</span><br><span class="line"></span><br><span class="line">methodsNeedChange.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> original = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>[item]</span><br><span class="line">    <span class="title function_">def</span>(<span class="title class_">Array</span>,prototype, item, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">const</span> result = original.<span class="title function_">apply</span>(<span class="variable language_">this</span>, <span class="variable language_">arguments</span>);</span><br><span class="line">        <span class="keyword">const</span> args = [...<span class="variable language_">arguments</span>];</span><br><span class="line">        <span class="keyword">const</span> ob = <span class="variable language_">this</span>.<span class="property">__ob__</span>;</span><br><span class="line">        <span class="keyword">let</span> inserted = [];</span><br><span class="line">        <span class="comment">// 判断类型</span></span><br><span class="line">        <span class="keyword">switch</span>(item) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;push:</span></span><br><span class="line"><span class="string">            case &#x27;</span>unshift<span class="string">&#x27;:</span></span><br><span class="line"><span class="string">                inserted = arguments;</span></span><br><span class="line"><span class="string">                break;</span></span><br><span class="line"><span class="string">            case &#x27;</span>splice<span class="string">&#x27;:</span></span><br><span class="line"><span class="string">                inserted = args.slice(2);</span></span><br><span class="line"><span class="string">                break;</span></span><br><span class="line"><span class="string">            if(inserted) &#123;</span></span><br><span class="line"><span class="string">                ob.observerArray(inserted);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            return result;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;, false)</span></span><br><span class="line"><span class="string">&#125;)</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+
+
+<p>通过Vue.$set(Array,index,value)也可以给数组响应式的添加项目</p>
+<p>通过splice方法设置数组长度：vm.items.splice(newLength)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/vue-v3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/vue-v3/" class="post-title-link" itemprop="url">vue-v3</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-29 11:26:44 / 修改时间：21:33:25" itemprop="dateCreated datePublished" datetime="2022-05-29T11:26:44+08:00">2022-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue2迁移V3-—上"><a href="#Vue2迁移V3-—上" class="headerlink" title="Vue2迁移V3 —上"></a>Vue2迁移V3 —上</h2><p>1、$set $delete 响应式API</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//V2中 使用Vue.$set来为对象响应式添加值</span><br><span class="line">Vue.$set(target,key,value);</span><br><span class="line"></span><br><span class="line">//V3中 由于使用了new Proxy实现响应式</span><br><span class="line">import &#123; ref, reactive, customRef &#125; from &#x27;vue&#x27;;</span><br><span class="line"></span><br><span class="line">const target = ref(0);</span><br><span class="line">target.value ++ ;</span><br><span class="line">const state = reactive(&#123;</span><br><span class="line">    name: &#x27;burning&#x27;</span><br><span class="line">&#125;)</span><br><span class="line">state.name = &#x27;rotk&#x27;;</span><br><span class="line"></span><br><span class="line">// 其他的一些api </span><br><span class="line">// shallowReactive只保留自身Property 不往下递归添加相应 shallowReactive(target)</span><br><span class="line">// toRaw 解除响应式 </span><br><span class="line">// markRow 标记对象，标记后不会被添加为响应式对象</span><br><span class="line">// unref 判断对象是否ref 是ref返回.value 否则返回对象</span><br><span class="line">// toRef 和 toRefs 将reactive中的property转化为ref对象</span><br><span class="line">// customRef 这个挺好用的 创建自定义ref并对依赖项进行显示控制接受track和trigger，并返回带有get和set的对象</span><br><span class="line">// Vue2 中如果要添加debounce，得用匿名函数包裹</span><br><span class="line">const debounceRef = (value, delay) =&gt; &#123;</span><br><span class="line">    let timer;</span><br><span class="line">    return customRef((track, trigger) =&gt; &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            get()&#123;</span><br><span class="line">                track();</span><br><span class="line">                return value;</span><br><span class="line">            &#125;,</span><br><span class="line">            set(newVal)&#123;</span><br><span class="line">                clearTimeout(timer);</span><br><span class="line">                timer = setTimeout(() =&gt; &#123;</span><br><span class="line">                    value = newVal;</span><br><span class="line">                    trigger();</span><br><span class="line">                &#125;, delay);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// triggerRef(target) 手动触发watchEffect的事件</span><br><span class="line"></span><br><span class="line">watchEffect(() =&gt; &#123;</span><br><span class="line">    console.log(&#x27;hello,world&#x27;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">triggerRef(target);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Composition API算是改动比较大的了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// defineComponent写法</span><br><span class="line"></span><br><span class="line">export default defineComponent(&#123;</span><br><span class="line">    setup(props, context)&#123;</span><br><span class="line">        context.attrs</span><br><span class="line">        context.slots</span><br><span class="line">        context.emit</span><br><span class="line">        // 这个用来暴露方法和属性给外部调用</span><br><span class="line">        // 如果没有定义expose 通过ref获取就是setup 对应return</span><br><span class="line">        // 如果定义了expose 通过ref获取的就是expose的内容 会覆盖return</span><br><span class="line">        context.expose </span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// export 写法</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">    setup()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// script写法</span><br><span class="line">&lt;script setup lang=&#x27;ts&#x27;&gt;</span><br><span class="line">    const props = defineProps(&#123;&#125;)</span><br><span class="line">    const emits = defineEmtis([&#x27;click&#x27;])</span><br><span class="line">    const expose = defineExpose(&#123;&#125;)</span><br><span class="line">    // typescript中接受需要调用withDefaults</span><br><span class="line">    const props = withDefaults(defineProps&lt;Props&gt;(), &#123;</span><br><span class="line">        // 这里是props</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从生命周期来看 setup在beforeCreated和created之前， Vue3删除了beforeCreate和created，在setup中this也不会指向组件实例</p>
+<p>setup函数的第一个参数是props，父组件传给子组件的参数，但是不能使用直接解构取值，否则会丢失响应式，需要通过toRefs</p>
+<h3 id="defineAsyncComponent"><a href="#defineAsyncComponent" class="headerlink" title="defineAsyncComponent"></a>defineAsyncComponent</h3><p>官方解释：创建一个只有在需要时才会加载的异步组件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import &#123; defineAsyncComponent &#125; from &#x27;vue&#x27;</span><br><span class="line">const AsyncComp = defineAsyncComponent(() =&gt; import(&#x27;./components/AsyncComponent.vue&#x27;))</span><br><span class="line"></span><br><span class="line">//带配置的</span><br><span class="line">const AsyncComp = defineAsyncComponent(&#123;</span><br><span class="line">    loader: () =&gt; import (&#x27;./components/AsyncComponent.vue&#x27;),</span><br><span class="line">    loadingComponent: LoadingComponent,</span><br><span class="line">    errorComponent: ErrorComponent,</span><br><span class="line">    delay: 200,</span><br><span class="line">    timeout: 3000</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Provide-Inject"><a href="#Provide-Inject" class="headerlink" title="Provide/Inject"></a>Provide/Inject</h2><p>父子组件传参，也可以替代prototype，provide和inject设计是非响应式的，当然，如果传递了带响应式的数据时，接收到的也是响应式的</p>
+<h2 id="getCurrentInstance"><a href="#getCurrentInstance" class="headerlink" title="getCurrentInstance"></a>getCurrentInstance</h2><p>Vue3中删除了暴露在prototype上的方法，提供了globalProperties<br>但是Vue3文档中 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//getCurrentInstance 只暴露给高阶使用场景，典型的比如在库中。强烈反对在应用的代码中使用 getCurrentInstance。请不要把它当作在组合式 API 中获取 this 的替代方案来使用。</span><br><span class="line"></span><br><span class="line">// main.ts</span><br><span class="line">app.config.globalProperties.$xxx;</span><br><span class="line">const currInstance = getCurrentInstance();</span><br><span class="line">currInstance.$xxx();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/clouse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/clouse/" class="post-title-link" itemprop="url">clouse</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-29 10:08:20 / 修改时间：10:26:00" itemprop="dateCreated datePublished" datetime="2022-05-29T10:08:20+08:00">2022-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>谈到闭包 我理解应该先从js的作用域开始说起，由于JS是词法作用域<br>函数声明的时候相关的上下文环境已经确定<br>而由于作用域的特性（栈内存），函数可以向上访问作用域，但是不能向下访问<br>这个时候通过函数内部嵌套函数将作用域中保存的内容(AO,VO)返回出来</p>
+<p>我理解的闭包用一句话概括闭包就是保存了其他函数作用域的函数</p>
+<p>使用闭包应当注意，由于闭包保存在堆内存中，避免内存泄漏应当手动清除</p>
+<p>工作中常见的闭包使用场景：防抖节流中将setTimeout 定时器返回出来避免清除</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/typescript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/typescript/" class="post-title-link" itemprop="url">Typescript</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-29 10:08:20" itemprop="dateCreated datePublished" datetime="2022-05-29T10:08:20+08:00">2022-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-20 21:18:45" itemprop="dateModified" datetime="2023-03-20T21:18:45+08:00">2023-03-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Typescript"><a href="#Typescript" class="headerlink" title="Typescript"></a>Typescript</h2><p>一直没有系统的学习TS，边工作边学习，今天抽空整理一下APi</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础类型</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">status</span>: boolean = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">count</span>: number = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">name</span>: <span class="attr">string</span>: <span class="string">&#x27;黑色柳丁&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">uni</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">nul</span>: <span class="literal">null</span> = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">any</span>: any = <span class="string">&#x27;&#x27;</span> <span class="comment">// any类型 与unknown类型一样</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">unknown</span>: unknown = ??? </span><br><span class="line"><span class="comment">// Enum 类型 一般用来创建数值集合  初始值为0，其余成员按顺序自动增长</span></span><br><span class="line"></span><br><span class="line">enum <span class="title class_">List</span> &#123;</span><br><span class="line">  <span class="title class_">Apple</span>,</span><br><span class="line">  <span class="title class_">Pitch</span>,</span><br><span class="line">  <span class="title class_">Watermelon</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">apple</span>: <span class="title class_">List</span> = <span class="title class_">List</span>.<span class="property">Apple</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="comment">//如果加上 Apple = 10 </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">pitch</span>: <span class="title class_">List</span> = <span class="title class_">List</span>.<span class="property">Pitch</span>; <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果定义字符串枚举类</span></span><br><span class="line"></span><br><span class="line">enum <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="variable constant_">DOG</span> = <span class="string">&#x27;狗&#x27;</span></span><br><span class="line">  <span class="variable constant_">CAT</span> = <span class="string">&#x27;猫&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">dog</span>: <span class="title class_">Animal</span> = <span class="title class_">Animal</span>.<span class="property">DOG</span>; <span class="comment">// 狗</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果定义由这些常量组成的数组类型则用以下方式</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">strs</span>: string[] = [];</span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Animal</span>[] = [<span class="title class_">Animal</span>.<span class="property">DOG</span>, <span class="title class_">Animal</span>.<span class="property">CAT</span>]; <span class="comment">// [狗，猫]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// never类型  表示那些用不存在的值 刚开始被他折磨的死去活来的 一般用来抛出异常</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// void 类型 一般用来没有返回值的函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">init</span>(<span class="params"></span>): <span class="keyword">void</span> &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">mounted</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对象类型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">type</span>: string;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">age: number, type: string</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">type</span> = type;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cry</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;5555555&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Array</span>&lt;<span class="title class_">Animal</span>&gt; = [];</span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Animal</span>[] = [];</span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">type</span>: string;</span><br><span class="line">  <span class="attr">name</span>: string;</span><br><span class="line">  <span class="attr">age</span>: number;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type name = string</span><br><span class="line">type <span class="title class_">Animal</span> = &#123; <span class="attr">name</span>: name; <span class="attr">age</span>: number &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类型断言</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">str</span>: string = <span class="string">&#x27;abc&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: number = (&lt;string&gt;str).<span class="property">length</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: number = (str <span class="keyword">as</span> string ).<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多种类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">FollowStatus</span>: string | <span class="literal">undefined</span> | <span class="literal">null</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类型合并</span></span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: string,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Fish</span> &#123;</span><br><span class="line">  <span class="attr">age</span>: number,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">that</span>: <span class="title class_">Animal</span> &amp; <span class="title class_">Fish</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;两栖动物&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="高阶用法未完待续"><a href="#高阶用法未完待续" class="headerlink" title="高阶用法未完待续"></a>高阶用法未完待续</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/prototype/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -526,87 +875,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/08/Hello-world-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/Hello-world-0/" class="post-title-link" itemprop="url">Hello-world</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-08 15:27:43 / 修改时间：20:53:36" itemprop="dateCreated datePublished" datetime="2022-05-08T15:27:43+08:00">2022-05-08</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Hello,  world !</p>
-<p>这是我的第一篇blog</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code snippet  </span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">close</span>()</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight plaintext"><figcaption><span>Array.map</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.map(callback[, thisArg])</span><br></pre></td></tr></table></figure>
-
-<blockquote class="blockquote-center">
-            <p>Something</p>
-
-          </blockquote>
-
-<a class="btn" target="_blank" rel="noopener" href="https://www.baidu.com" title="[title]">
-            <i class="fa fa-icon [class]"></i>text
-          </a>
-
-<!-- <iframe src="https://www.baidu.com/" width="[width]" height="[height]" frameborder="0" loading="lazy" allowfullscreen></iframe> -->
-
-
-<p><img data-src="/images/header.jpg"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
 
@@ -673,14 +941,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -707,7 +975,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
