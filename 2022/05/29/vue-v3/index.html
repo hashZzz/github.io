@@ -29,7 +29,7 @@
 <meta property="og:description" content="Vue2迁移V3 —上1、$set $delete 响应式API 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051&#x2F;&#x2F;V2中 使用Vue.$set来为对象响应式添加值Vue.$set(target,key,value);&#x2F;&#x2F;V3中 由于使用了new Proxy实">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-29T03:26:44.000Z">
-<meta property="article:modified_time" content="2022-05-29T13:33:25.396Z">
+<meta property="article:modified_time" content="2023-05-08T13:02:10.967Z">
 <meta property="article:author" content="😈Ray">
 <meta property="article:tag" content="Vue3">
 <meta name="twitter:card" content="summary">
@@ -211,10 +211,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-29 11:26:44 / 修改时间：21:33:25" itemprop="dateCreated datePublished" datetime="2022-05-29T11:26:44+08:00">2022-05-29</time>
+              <time title="创建时间：2022-05-29 11:26:44" itemprop="dateCreated datePublished" datetime="2022-05-29T11:26:44+08:00">2022-05-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-08 21:02:10" itemprop="dateModified" datetime="2023-05-08T21:02:10+08:00">2023-05-08</time>
+              </span>
 
           
 
@@ -243,6 +249,11 @@
 <h2 id="Provide-Inject"><a href="#Provide-Inject" class="headerlink" title="Provide/Inject"></a>Provide/Inject</h2><p>父子组件传参，也可以替代prototype，provide和inject设计是非响应式的，当然，如果传递了带响应式的数据时，接收到的也是响应式的</p>
 <h2 id="getCurrentInstance"><a href="#getCurrentInstance" class="headerlink" title="getCurrentInstance"></a>getCurrentInstance</h2><p>Vue3中删除了暴露在prototype上的方法，提供了globalProperties<br>但是Vue3文档中 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//getCurrentInstance 只暴露给高阶使用场景，典型的比如在库中。强烈反对在应用的代码中使用 getCurrentInstance。请不要把它当作在组合式 API 中获取 this 的替代方案来使用。</span><br><span class="line"></span><br><span class="line">// main.ts</span><br><span class="line">app.config.globalProperties.$xxx;</span><br><span class="line">const currInstance = getCurrentInstance();</span><br><span class="line">currInstance.$xxx();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="CompositionAPI"><a href="#CompositionAPI" class="headerlink" title="CompositionAPI"></a>CompositionAPI</h1><p>新增compositionAPI，代码逻辑更加清晰</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; ref, reactive &#125; from &#x27;vue&#x27;;</span><br><span class="line"></span><br><span class="line">const count = ref(0);</span><br><span class="line">const state = reactive(&#123; name: &#x27;Jack&#x27; &#125;);</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -256,6 +267,9 @@
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\2022\05\28\vue-router4-addRoute\" rel="bookmark">vue-router4-addRoute</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\06\vue3-proxy\" rel="bookmark">vue-v3</a></div>
     </li>
   </ul>
 
@@ -337,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue2%E8%BF%81%E7%A7%BBV3-%E2%80%94%E4%B8%8A"><span class="nav-number">1.</span> <span class="nav-text">Vue2迁移V3 —上</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defineAsyncComponent"><span class="nav-number">1.1.</span> <span class="nav-text">defineAsyncComponent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Provide-Inject"><span class="nav-number">2.</span> <span class="nav-text">Provide&#x2F;Inject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getCurrentInstance"><span class="nav-number">3.</span> <span class="nav-text">getCurrentInstance</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue2%E8%BF%81%E7%A7%BBV3-%E2%80%94%E4%B8%8A"><span class="nav-number">1.</span> <span class="nav-text">Vue2迁移V3 —上</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defineAsyncComponent"><span class="nav-number">1.1.</span> <span class="nav-text">defineAsyncComponent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Provide-Inject"><span class="nav-number">2.</span> <span class="nav-text">Provide&#x2F;Inject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getCurrentInstance"><span class="nav-number">3.</span> <span class="nav-text">getCurrentInstance</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CompositionAPI"><span class="nav-number"></span> <span class="nav-text">CompositionAPI</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -351,7 +365,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -385,7 +399,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -21,16 +21,20 @@
     var CONFIG = {"hostname":"hashzzz.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="DJ1-1 1vU">
-<meta property="og:url" content="http://hashzzz.github.io/archives/2022/06/index.html">
+  <meta name="description" content="Vue面试题1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if2、列表标记key3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze4、路由异步加载5、UI组件库按需引入6、抽离公共代码，使用mixin Vue组件通信的方法 1、通过props2、用过$bus $emit触发自定义事件3、使用$ref4、使用$parent和$children5、使用at">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue面试题">
+<meta property="og:url" content="http://hashzzz.github.io/2023/05/08/vue-better/index.html">
 <meta property="og:site_name" content="DJ1-1 1vU">
+<meta property="og:description" content="Vue面试题1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if2、列表标记key3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze4、路由异步加载5、UI组件库按需引入6、抽离公共代码，使用mixin Vue组件通信的方法 1、通过props2、用过$bus $emit触发自定义事件3、使用$ref4、使用$parent和$children5、使用at">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-08T13:48:41.000Z">
+<meta property="article:modified_time" content="2023-05-08T14:04:50.314Z">
 <meta property="article:author" content="😈Ray">
-<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="面试题">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://hashzzz.github.io/archives/2022/06/">
+<link rel="canonical" href="http://hashzzz.github.io/2023/05/08/vue-better/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | DJ1-1 1vU</title>
+  <title>Vue面试题 | DJ1-1 1vU</title>
   
 
 
@@ -178,56 +182,123 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 15 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/vue-better/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-08 21:48:41 / 修改时间：22:04:50" itemprop="dateCreated datePublished" datetime="2023-05-08T21:48:41+08:00">2023-05-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <h2 id="Vue面试题"><a href="#Vue面试题" class="headerlink" title="Vue面试题"></a>Vue面试题</h2><p>1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if<br>2、列表标记key<br>3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze<br>4、路由异步加载<br>5、UI组件库按需引入<br>6、抽离公共代码，使用mixin</p>
+<p>Vue组件通信的方法</p>
+<p>1、通过props<br>2、用过$bus $emit触发自定义事件<br>3、使用$ref<br>4、使用$parent和$children<br>5、使用attrs和$listeners<br>6、Provider和Inject<br>7、Vuex<br>8、V-model和$emit update</p>
+<p>Vue中$nextTick怎么用的，实现原理是什么？</p>
+<p>$nextTick用于Dom更新更新结束后执行的回调，修改数据后立刻调用这个方法，可以获取更新后的Dom，在created中访问DOM可以使用这个方法</p>
+<p>当数据发生变化时,Vue将回调放入异步更新队列，等队列中所有的数据变化完后再统一更新，不然每次更新数据都会触发更新<br>具体代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const callbacks = []</span><br><span class="line">let pending = false</span><br><span class="line"></span><br><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  // 用 callbacks 数组存储经过包装的 cb 函数</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      // 用 try catch 包装回调函数，便于错误捕获</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &#x27;nextTick&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    pending = true</span><br><span class="line">    // 执行 timerFunc，在浏览器的任务队列中（首选微任务队列）放入 flushCallbacks 函数</span><br><span class="line">    timerFunc()</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &#x27;undefined&#x27;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>虚拟DOM是什么？</p>
+<p>虚拟Dom实际上是把Dom节点的attributes、Event、Content等等以对象的形式储存，通过Compiler将对象转化为HTMl结构的</p>
+<p>为什么组件的data属性是一个函数，而不是对象</p>
+<p>我们通过Vue.component创建多个组件的时候，如果data是一个属性，那么就会共用这个data，修改A也会影响B，当使用function return data的时候，就隔绝了相互之间的影响</p>
+<p>Vue的初始化过程你有了解过吗？做过哪些事情</p>
+<p>第一步是接收用户自定义的一些配置，和Vue自己定义的一些策略进行合并<br>第二步是初始化生命周期、事件、data、props、computed、watcher、调用周期钩子<br>第三步：使用$mount挂载</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\28\prototype\" rel="bookmark">prototype</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\22\task-context\" rel="bookmark">task-context</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\29\clouse\" rel="bookmark">clouse</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\08\js-better\" rel="bookmark">JS面试题</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\11\css\" rel="bookmark">css面试题</a></div>
+    </li>
+  </ul>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-14T21:22:59+08:00"
-              content="2022-06-14">
-          06-14
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/06/14/mock-server/" itemprop="url">
-            <span itemprop="name">mock-server</span>
-          </a>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"># 面试题</a>
+          </div>
 
-    </header>
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/05/08/js-better/" rel="prev" title="JS面试题">
+      <i class="fa fa-chevron-left"></i> JS面试题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/11/css/" rel="next" title="css面试题">
+      css面试题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -274,6 +345,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">Vue面试题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -483,6 +555,25 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '1d6aa0adf73f958423e4',
+      clientSecret: '553772a09805e5a1f75e2620e5773a64cb743f0e',
+      repo        : 'hashzzz.github.io',
+      owner       : 'hashZzz',
+      admin       : ['hashZzz'],
+      id          : 'a8221acce27e6eff39ce0742ccb2ec01',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
     </div>
 </body>

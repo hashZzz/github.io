@@ -21,16 +21,22 @@
     var CONFIG = {"hostname":"hashzzz.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="DJ1-1 1vU">
-<meta property="og:url" content="http://hashzzz.github.io/archives/2022/06/index.html">
+  <meta name="description" content="Vue2与Vue3响应式原理Vue2的响应式核心是使用Object.defineProperty劫持对象，然后进行深度遍历，给每个属性设置setter和getter，Vue3使用proxy对象重写响应式，通过Reflect对源对象的属性进行操作 1234567891011121314151617181920function defineReactive(obj, key, val) &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-v3">
+<meta property="og:url" content="http://hashzzz.github.io/2023/05/06/vue3-proxy/index.html">
 <meta property="og:site_name" content="DJ1-1 1vU">
+<meta property="og:description" content="Vue2与Vue3响应式原理Vue2的响应式核心是使用Object.defineProperty劫持对象，然后进行深度遍历，给每个属性设置setter和getter，Vue3使用proxy对象重写响应式，通过Reflect对源对象的属性进行操作 1234567891011121314151617181920function defineReactive(obj, key, val) &amp;#123;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1c23f770a47243d7a1d25e9e8a5a6482~tplv-k3u1fbpfcp-zoom-crop-mark:1512:1512:1512:851.awebp">
+<meta property="article:published_time" content="2023-05-06T03:26:44.000Z">
+<meta property="article:modified_time" content="2023-05-08T12:53:02.892Z">
 <meta property="article:author" content="😈Ray">
-<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Vue3">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1c23f770a47243d7a1d25e9e8a5a6482~tplv-k3u1fbpfcp-zoom-crop-mark:1512:1512:1512:851.awebp">
 
-<link rel="canonical" href="http://hashzzz.github.io/archives/2022/06/">
+<link rel="canonical" href="http://hashzzz.github.io/2023/05/06/vue3-proxy/">
 
 
 <script id="page-configurations">
@@ -38,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | DJ1-1 1vU</title>
+  <title>vue-v3 | DJ1-1 1vU</title>
   
 
 
@@ -178,56 +184,114 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 15 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/06/vue3-proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue-v3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-06 11:26:44" itemprop="dateCreated datePublished" datetime="2023-05-06T11:26:44+08:00">2023-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-08 20:53:02" itemprop="dateModified" datetime="2023-05-08T20:53:02+08:00">2023-05-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <h2 id="Vue2与Vue3响应式原理"><a href="#Vue2与Vue3响应式原理" class="headerlink" title="Vue2与Vue3响应式原理"></a>Vue2与Vue3响应式原理</h2><p>Vue2的响应式核心是使用Object.defineProperty劫持对象，然后进行深度遍历，给每个属性设置setter和getter，<br><img data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1c23f770a47243d7a1d25e9e8a5a6482~tplv-k3u1fbpfcp-zoom-crop-mark:1512:1512:1512:851.awebp"><br>Vue3使用proxy对象重写响应式，通过Reflect对源对象的属性进行操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">obj, key, val</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>();</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, key, &#123;</span><br><span class="line">    <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = val;</span><br><span class="line">      <span class="comment">// 触发getter的时候收集依赖</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="title class_">Dep</span>.<span class="property">target</span>) &#123;</span><br><span class="line">        dep.<span class="title function_">depend</span>();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">set</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">      val = newVal;</span><br><span class="line">      <span class="comment">// 调用setter的时候调用dep的notify通知依赖更新</span></span><br><span class="line">      dep.<span class="title function_">notify</span>();</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Proxy</span>(data, &#123;</span><br><span class="line">  get (target, prop) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">get</span>(target, prop);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">set</span>(<span class="params">target, prop, value</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">set</span>(target, prop, value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">deleteProperty</span>(<span class="params">target, prop</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">deleteProperty</span>(target, prop);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\19\form-component\" rel="bookmark">formComponent</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\28\vue-router4-addRoute\" rel="bookmark">vue-router4-addRoute</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\29\vue-v3\" rel="bookmark">vue-v3</a></div>
+    </li>
+  </ul>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-06-14T21:22:59+08:00"
-              content="2022-06-14">
-          06-14
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/06/14/mock-server/" itemprop="url">
-            <span itemprop="name">mock-server</span>
-          </a>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Vue3/" rel="tag"># Vue3</a>
+          </div>
 
-    </header>
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/14/mock-server/" rel="prev" title="mock-server">
+      <i class="fa fa-chevron-left"></i> mock-server
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/08/js-better/" rel="next" title="JS面试题">
+      JS面试题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -274,6 +338,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue2%E4%B8%8EVue3%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Vue2与Vue3响应式原理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -483,6 +548,25 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '1d6aa0adf73f958423e4',
+      clientSecret: '553772a09805e5a1f75e2620e5773a64cb743f0e',
+      repo        : 'hashzzz.github.io',
+      owner       : 'hashZzz',
+      admin       : ['hashZzz'],
+      id          : '7b3370247e691924c371e70fabccf31f',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
     </div>
 </body>

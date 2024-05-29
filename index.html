@@ -184,6 +184,413 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/canvas-water-print/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/29/canvas-water-print/" class="post-title-link" itemprop="url">canvas-water-print</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-29 21:37:10 / 修改时间：20:29:18" itemprop="dateCreated datePublished" datetime="2024-05-29T21:37:10+08:00">2024-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><big><strong>Canvas生产base64的水印</strong></big></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setWaterPrint</span>(<span class="params">str, elem, fs, color</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(elem &amp;&amp; elem.<span class="property">nodeType</span>) &#123;</span><br><span class="line">        elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Invalid Target&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.<span class="property">width</span> = <span class="number">250</span>;</span><br><span class="line">    canvas.<span class="property">height</span> = <span class="number">200</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">rotate</span>( (<span class="title class_">Math</span>.<span class="property">PI</span> * - <span class="number">10</span>) / <span class="number">180</span> );</span><br><span class="line">    ctx.<span class="property">font</span> = fs || <span class="string">&#x27;16px Microsoft YaHei&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = color || <span class="string">&#x27;rgba(200,200,200, 0.3)&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&#x27;center&#x27;</span></span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&#x27;Middle&#x27;</span>;</span><br><span class="line">    ctx.<span class="title function_">fillText</span>(str, canvas.<span class="property">width</span> / <span class="number">10</span>, canvas.<span class="property">height</span> / <span class="number">2</span>);</span><br><span class="line">    elem.<span class="property">style</span>.<span class="property">backgroundImage</span> = <span class="string">&quot;url(&quot;</span> + can.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>功能增强，防止用户删除Element元素 使用Class封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WaterMark</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">el, content</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">el</span> = el;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">content</span> = content;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">config</span> = &#123; <span class="attr">attributes</span>: <span class="literal">true</span>, <span class="attr">childList</span>: <span class="literal">true</span>, <span class="attr">subtree</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">init</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createContext</span>(<span class="variable language_">this</span>.<span class="property">el</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createContext</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; offsetWidth, offsetHeight &#125; = elem;</span><br><span class="line">    <span class="keyword">const</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">    canvas.<span class="property">width</span> = offsetWidth;</span><br><span class="line">    canvas.<span class="property">height</span> = offsetHeight;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">position</span> = <span class="string">&quot;absolute&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">pointerEvents</span> = <span class="string">&quot;none&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">top</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">left</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">zIndex</span> = <span class="string">&quot;99&quot;</span>;</span><br><span class="line">    ctx.<span class="property">font</span> = <span class="string">&quot;24px serif&quot;</span>;</span><br><span class="line">    ctx.<span class="title function_">rotate</span>((-<span class="number">20</span> * <span class="title class_">Math</span>.<span class="property">PI</span>) / <span class="number">180</span>);</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = <span class="string">&quot;rgba(180, 180, 180, 0.6)&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&quot;left&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&quot;middle&quot;</span>;</span><br><span class="line">    <span class="comment">//   循环在canvas中渲染</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; canvas.<span class="property">width</span> / <span class="number">100</span>; i++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; canvas.<span class="property">height</span> / <span class="number">50</span>; j++) &#123;</span><br><span class="line">        ctx.<span class="title function_">fillText</span>(<span class="variable language_">this</span>.<span class="property">content</span>, i * <span class="number">200</span>, j * <span class="number">100</span> + <span class="number">20</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createObserver</span>(elem);</span><br><span class="line">    <span class="comment">// 添加监听</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createObserver</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">observer</span>) <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">disconnect</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(<span class="function">(<span class="params">changeList, watcher</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="title class_">Array</span>.<span class="title function_">from</span>(changeList).<span class="title function_">forEach</span>(<span class="function">(<span class="params">record</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; removedNodes &#125; = record;</span><br><span class="line">        <span class="keyword">const</span> removeNodeNames = <span class="title class_">Array</span>.<span class="title function_">from</span>(removedNodes).<span class="title function_">map</span>(</span><br><span class="line">          <span class="function">(<span class="params">node</span>) =&gt;</span> node.<span class="property">nodeName</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">if</span> (removeNodeNames.<span class="title function_">includes</span>(<span class="string">&quot;CANVAS&quot;</span>)) &#123;</span><br><span class="line">          <span class="variable language_">window</span>.<span class="title function_">requestIdleCallback</span>(<span class="function">() =&gt;</span> <span class="variable language_">this</span>.<span class="title function_">createContext</span>(elem), &#123;</span><br><span class="line">            <span class="attr">timeout</span>: <span class="number">300</span>,</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">observe</span>(elem, <span class="variable language_">this</span>.<span class="property">config</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> elem = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;content&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> waterMark = <span class="keyword">new</span> <span class="title class_">WaterMark</span>(elem, <span class="string">&quot;hello, world&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/MapVsWeakMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/29/MapVsWeakMap/" class="post-title-link" itemprop="url">Map、WeakMap、Set、WeakSet</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-29 21:37:10 / 修改时间：20:55:39" itemprop="dateCreated datePublished" datetime="2024-05-29T21:37:10+08:00">2024-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>ES6中新增了Map、Set、WeakMap、WeakSet几个数据结构，他们各自都有不同的特点和使用场景</p>
+<p>Map是一种键值对结构的数据集合，表现为Key-Value的形式， 这里的Key可以是任意值但是不能重复</p>
+<p>下面是map的设置、取值、查询、删除、清空几个操作，遍历方法会放到Set之后一并介绍</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">map.<span class="title function_">set</span>(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;Alice&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> name = map.<span class="title function_">get</span>(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line">map.<span class="title function_">has</span>(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line">map.<span class="title function_">delete</span>(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line">map.<span class="title function_">clear</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Set呢是一种存储唯一值的结构，适用于存储不重复元素的场景，无序、不重复、值可以是任意类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line">set.<span class="title function_">add</span>(<span class="number">1</span>);</span><br><span class="line">set.<span class="title function_">add</span>(<span class="number">2</span>);</span><br><span class="line">set.<span class="title function_">add</span>(<span class="number">2</span>); <span class="comment">// 尝试添加重复值</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(set.<span class="title function_">has</span>(<span class="number">1</span>)); <span class="comment">// 输出: true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(set.<span class="property">size</span>); <span class="comment">// 输出: 2</span></span><br><span class="line"></span><br><span class="line">set.<span class="title function_">delete</span>(<span class="number">2</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(set.<span class="property">size</span>); <span class="comment">// 输出: 1</span></span><br><span class="line"></span><br><span class="line">set.<span class="title function_">clear</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(set.<span class="property">size</span>); <span class="comment">// 输出: 0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一般会用来存一些枚举值 坐标点位较多</p>
+<p>WeakMap与Map</p>
+<p>WeakMap 是一种弱引用的键值对类型，键只能是对象，且如果对象没有被引用，那么就会被垃圾回收处理掉，WeakMap也不能枚举，无法使用forEach，keys，values，entries等方法，一般用Dom作为键比较场景，当Dom移除之后会自动清理</p>
+<p>WeakSet同理</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/11/css/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/11/css/" class="post-title-link" itemprop="url">css面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-11 21:48:41 / 修改时间：20:14:38" itemprop="dateCreated datePublished" datetime="2023-05-11T21:48:41+08:00">2023-05-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h2><p><code>flex-direction</code><br>决定主轴的的排列方向 row/column -reverse row(默认) column垂直方向的排列<br><code>flex-wrap</code><br>nowrap wrap wrap-reverse 换行<br><code>flex-flow</code><br>wrap和direction的合并 row 和 nowrap是默认值<br><code>justify-content</code><br>主轴方向的排列对齐方式<br><code>align-items</code><br>交叉轴上的对齐方向<br>项目的属性<br><code>order</code> 排序属性 越小越靠前<br><code>flex-grow</code> 放大比例<br><code>flex-shrink</code>缩小比例<br><code>align-self</code> 自身的排列方式</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/vue-better/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/08/vue-better/" class="post-title-link" itemprop="url">Vue面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-08 21:48:41 / 修改时间：22:04:50" itemprop="dateCreated datePublished" datetime="2023-05-08T21:48:41+08:00">2023-05-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue面试题"><a href="#Vue面试题" class="headerlink" title="Vue面试题"></a>Vue面试题</h2><p>1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if<br>2、列表标记key<br>3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze<br>4、路由异步加载<br>5、UI组件库按需引入<br>6、抽离公共代码，使用mixin</p>
+<p>Vue组件通信的方法</p>
+<p>1、通过props<br>2、用过$bus $emit触发自定义事件<br>3、使用$ref<br>4、使用$parent和$children<br>5、使用attrs和$listeners<br>6、Provider和Inject<br>7、Vuex<br>8、V-model和$emit update</p>
+<p>Vue中$nextTick怎么用的，实现原理是什么？</p>
+<p>$nextTick用于Dom更新更新结束后执行的回调，修改数据后立刻调用这个方法，可以获取更新后的Dom，在created中访问DOM可以使用这个方法</p>
+<p>当数据发生变化时,Vue将回调放入异步更新队列，等队列中所有的数据变化完后再统一更新，不然每次更新数据都会触发更新<br>具体代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const callbacks = []</span><br><span class="line">let pending = false</span><br><span class="line"></span><br><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  // 用 callbacks 数组存储经过包装的 cb 函数</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      // 用 try catch 包装回调函数，便于错误捕获</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &#x27;nextTick&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    pending = true</span><br><span class="line">    // 执行 timerFunc，在浏览器的任务队列中（首选微任务队列）放入 flushCallbacks 函数</span><br><span class="line">    timerFunc()</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &#x27;undefined&#x27;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>虚拟DOM是什么？</p>
+<p>虚拟Dom实际上是把Dom节点的attributes、Event、Content等等以对象的形式储存，通过Compiler将对象转化为HTMl结构的</p>
+<p>为什么组件的data属性是一个函数，而不是对象</p>
+<p>我们通过Vue.component创建多个组件的时候，如果data是一个属性，那么就会共用这个data，修改A也会影响B，当使用function return data的时候，就隔绝了相互之间的影响</p>
+<p>Vue的初始化过程你有了解过吗？做过哪些事情</p>
+<p>第一步是接收用户自定义的一些配置，和Vue自己定义的一些策略进行合并<br>第二步是初始化生命周期、事件、data、props、computed、watcher、调用周期钩子<br>第三步：使用$mount挂载</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/js-better/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/08/js-better/" class="post-title-link" itemprop="url">JS面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-08 21:48:41" itemprop="dateCreated datePublished" datetime="2023-05-08T21:48:41+08:00">2023-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-10 21:12:25" itemprop="dateModified" datetime="2023-05-10T21:12:25+08:00">2023-05-10</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="JS面试题"><a href="#JS面试题" class="headerlink" title="JS面试题"></a>JS面试题</h2><p>1、JS的数据类型，值是如何存储的</p>
+<p>基础类型： string number boolean Symbol<br>复杂类型值： Object Array null undefined</p>
+<p>基础类型值存储在栈中，<br>引用类型值存在堆中，指针存储在栈中，指针指向堆中的地址</p>
+<p>2、null和undefined的区别<br>undefined偏向于未定义，null表示是空对象<br>当变量声明没定义的时候就是undefined，typeof null 输出object,<br>而typeof undefined为undefined</p>
+<p>3、valueOf和toString()，这俩方法都是javascript内置的取值方法</p>
+<p>toString返回的是字符串，而valueOf返回的是原始值，null和undefined都没有这两个方法</p>
+<p>{} valueOf 结果为 {} 原始值<br>[] valueOf 结果为 [] 原始值<br>{} toString 结果为 ‘[object Object]’<br>[] toString 结果为 ‘’;</p>
+<p>4、javascript的作用域和作用域链</p>
+<p>作用域是定义变量的区域，也是词法作用域，在这个区域内决定了变量和其他资源的可见性<br>在函数内部可以向父级访问变量，而函数外部不能访问函数内部的值<br>由这种关系组成的链条就叫作用域链</p>
+<p>5、什么情况会造成内存泄漏？<br>全局变量、闭包、遗忘的定时器</p>
+<p>6、ES6新增了哪些东西 Promise、箭头函数、类、解构赋值、let、const声明、Symbol、Map、Set、模板字符串、模块化、Proxy、函数默认参数、点运算符</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/06/vue3-proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/06/vue3-proxy/" class="post-title-link" itemprop="url">vue-v3</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-06 11:26:44" itemprop="dateCreated datePublished" datetime="2023-05-06T11:26:44+08:00">2023-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-08 20:53:02" itemprop="dateModified" datetime="2023-05-08T20:53:02+08:00">2023-05-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue2与Vue3响应式原理"><a href="#Vue2与Vue3响应式原理" class="headerlink" title="Vue2与Vue3响应式原理"></a>Vue2与Vue3响应式原理</h2><p>Vue2的响应式核心是使用Object.defineProperty劫持对象，然后进行深度遍历，给每个属性设置setter和getter，<br><img data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1c23f770a47243d7a1d25e9e8a5a6482~tplv-k3u1fbpfcp-zoom-crop-mark:1512:1512:1512:851.awebp"><br>Vue3使用proxy对象重写响应式，通过Reflect对源对象的属性进行操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">obj, key, val</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>();</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, key, &#123;</span><br><span class="line">    <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = val;</span><br><span class="line">      <span class="comment">// 触发getter的时候收集依赖</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="title class_">Dep</span>.<span class="property">target</span>) &#123;</span><br><span class="line">        dep.<span class="title function_">depend</span>();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">set</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">      val = newVal;</span><br><span class="line">      <span class="comment">// 调用setter的时候调用dep的notify通知依赖更新</span></span><br><span class="line">      dep.<span class="title function_">notify</span>();</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Proxy</span>(data, &#123;</span><br><span class="line">  get (target, prop) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">get</span>(target, prop);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">set</span>(<span class="params">target, prop, value</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">set</span>(target, prop, value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">deleteProperty</span>(<span class="params">target, prop</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">deleteProperty</span>(target, prop);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/06/14/mock-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -348,10 +755,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-29 11:26:44 / 修改时间：21:33:25" itemprop="dateCreated datePublished" datetime="2022-05-29T11:26:44+08:00">2022-05-29</time>
+              <time title="创建时间：2022-05-29 11:26:44" itemprop="dateCreated datePublished" datetime="2022-05-29T11:26:44+08:00">2022-05-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-08 21:02:10" itemprop="dateModified" datetime="2023-05-08T21:02:10+08:00">2023-05-08</time>
+              </span>
 
           
 
@@ -380,6 +793,11 @@
 <h2 id="Provide-Inject"><a href="#Provide-Inject" class="headerlink" title="Provide/Inject"></a>Provide/Inject</h2><p>父子组件传参，也可以替代prototype，provide和inject设计是非响应式的，当然，如果传递了带响应式的数据时，接收到的也是响应式的</p>
 <h2 id="getCurrentInstance"><a href="#getCurrentInstance" class="headerlink" title="getCurrentInstance"></a>getCurrentInstance</h2><p>Vue3中删除了暴露在prototype上的方法，提供了globalProperties<br>但是Vue3文档中 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//getCurrentInstance 只暴露给高阶使用场景，典型的比如在库中。强烈反对在应用的代码中使用 getCurrentInstance。请不要把它当作在组合式 API 中获取 this 的替代方案来使用。</span><br><span class="line"></span><br><span class="line">// main.ts</span><br><span class="line">app.config.globalProperties.$xxx;</span><br><span class="line">const currInstance = getCurrentInstance();</span><br><span class="line">currInstance.$xxx();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="CompositionAPI"><a href="#CompositionAPI" class="headerlink" title="CompositionAPI"></a>CompositionAPI</h1><p>新增compositionAPI，代码逻辑更加清晰</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; ref, reactive &#125; from &#x27;vue&#x27;;</span><br><span class="line"></span><br><span class="line">const count = ref(0);</span><br><span class="line">const state = reactive(&#123; name: &#x27;Jack&#x27; &#125;);</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -456,427 +874,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/typescript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/29/typescript/" class="post-title-link" itemprop="url">Typescript</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-29 10:08:20" itemprop="dateCreated datePublished" datetime="2022-05-29T10:08:20+08:00">2022-05-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-20 21:18:45" itemprop="dateModified" datetime="2023-03-20T21:18:45+08:00">2023-03-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Typescript"><a href="#Typescript" class="headerlink" title="Typescript"></a>Typescript</h2><p>一直没有系统的学习TS，边工作边学习，今天抽空整理一下APi</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础类型</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">status</span>: boolean = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">count</span>: number = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">name</span>: <span class="attr">string</span>: <span class="string">&#x27;黑色柳丁&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">uni</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">nul</span>: <span class="literal">null</span> = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">any</span>: any = <span class="string">&#x27;&#x27;</span> <span class="comment">// any类型 与unknown类型一样</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">unknown</span>: unknown = ??? </span><br><span class="line"><span class="comment">// Enum 类型 一般用来创建数值集合  初始值为0，其余成员按顺序自动增长</span></span><br><span class="line"></span><br><span class="line">enum <span class="title class_">List</span> &#123;</span><br><span class="line">  <span class="title class_">Apple</span>,</span><br><span class="line">  <span class="title class_">Pitch</span>,</span><br><span class="line">  <span class="title class_">Watermelon</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">apple</span>: <span class="title class_">List</span> = <span class="title class_">List</span>.<span class="property">Apple</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="comment">//如果加上 Apple = 10 </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">pitch</span>: <span class="title class_">List</span> = <span class="title class_">List</span>.<span class="property">Pitch</span>; <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果定义字符串枚举类</span></span><br><span class="line"></span><br><span class="line">enum <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="variable constant_">DOG</span> = <span class="string">&#x27;狗&#x27;</span></span><br><span class="line">  <span class="variable constant_">CAT</span> = <span class="string">&#x27;猫&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">dog</span>: <span class="title class_">Animal</span> = <span class="title class_">Animal</span>.<span class="property">DOG</span>; <span class="comment">// 狗</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果定义由这些常量组成的数组类型则用以下方式</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">strs</span>: string[] = [];</span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Animal</span>[] = [<span class="title class_">Animal</span>.<span class="property">DOG</span>, <span class="title class_">Animal</span>.<span class="property">CAT</span>]; <span class="comment">// [狗，猫]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// never类型  表示那些用不存在的值 刚开始被他折磨的死去活来的 一般用来抛出异常</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// void 类型 一般用来没有返回值的函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">init</span>(<span class="params"></span>): <span class="keyword">void</span> &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">mounted</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对象类型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">type</span>: string;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">age: number, type: string</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">type</span> = type;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cry</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;5555555&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Array</span>&lt;<span class="title class_">Animal</span>&gt; = [];</span><br><span class="line"><span class="keyword">const</span> <span class="attr">animals</span>: <span class="title class_">Animal</span>[] = [];</span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">type</span>: string;</span><br><span class="line">  <span class="attr">name</span>: string;</span><br><span class="line">  <span class="attr">age</span>: number;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type name = string</span><br><span class="line">type <span class="title class_">Animal</span> = &#123; <span class="attr">name</span>: name; <span class="attr">age</span>: number &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类型断言</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">str</span>: string = <span class="string">&#x27;abc&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: number = (&lt;string&gt;str).<span class="property">length</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: number = (str <span class="keyword">as</span> string ).<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多种类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">FollowStatus</span>: string | <span class="literal">undefined</span> | <span class="literal">null</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类型合并</span></span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: string,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Fish</span> &#123;</span><br><span class="line">  <span class="attr">age</span>: number,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">that</span>: <span class="title class_">Animal</span> &amp; <span class="title class_">Fish</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;两栖动物&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="高阶用法未完待续"><a href="#高阶用法未完待续" class="headerlink" title="高阶用法未完待续"></a>高阶用法未完待续</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/prototype/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/28/prototype/" class="post-title-link" itemprop="url">prototype</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-28 21:19:51" itemprop="dateCreated datePublished" datetime="2022-05-28T21:19:51+08:00">2022-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-29 10:07:45" itemprop="dateModified" datetime="2022-05-29T10:07:45+08:00">2022-05-29</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Prototype-原型和原型链"><a href="#Prototype-原型和原型链" class="headerlink" title="Prototype 原型和原型链"></a>Prototype 原型和原型链</h2><p>原型和原型链我理解要从New关键字说起<br>我们通过New关键字创造实例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 创造了一个newObject 我们打印这个对象看看</span></span><br><span class="line"><span class="keyword">const</span> newObj = <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img data-src="/images/prototype.png"></p>
-<p>New首先创建了一个对象<br>执行构造函数里面的代码并给对象设置了prototype<br>绑定了this到对象上，设置constructor指向构造函数<br>最后把新对象返回出来</p>
-<p>我们来简单模拟一下new</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function myNew(target) &#123;</span><br><span class="line">    const newTarget = Object.create(targetFn.prototype);</span><br><span class="line">    // 获取参数</span><br><span class="line">    const args = Array.from(arguments).slice(1);</span><br><span class="line">    // 绑定this</span><br><span class="line">    const value = targetFn.apply(newTarget, args);</span><br><span class="line">    // 判断返回值是不是对象</span><br><span class="line">    const targetType = Object.prototype.toString.call(value).slice(8, -1)</span><br><span class="line">    if([&#x27;Function&#x27;, &#x27;Object&#x27;].includes(targetType)) &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return newTarget</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>构造函数通过prototype指向原型对象<br>构造函数创造的实例通过__protot__访问原型对象<br>prototype原型对象通过constructor指向构造函数<br>构造函数通过__proto__访问Object.prototype上的方法<br>Object的prototype隐式指向null<br>而JS中的继承就是以实例的prototype作为父类向下传递的<br>这种链式关系我理解就是原型链</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/28/vue-router4-addRoute/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/28/vue-router4-addRoute/" class="post-title-link" itemprop="url">vue-router4-addRoute</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-28 13:13:20 / 修改时间：21:17:55" itemprop="dateCreated datePublished" datetime="2022-05-28T13:13:20+08:00">2022-05-28</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Vue3搭配Vue-Router4-动态添加路由调整"><a href="#Vue3搭配Vue-Router4-动态添加路由调整" class="headerlink" title="Vue3搭配Vue-Router4 动态添加路由调整"></a>Vue3搭配Vue-Router4 动态添加路由调整</h2><hr>
-<p>Vue-Router4 删除了addRoutes方法，提供了addRoute方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//添加一条路由记录 如果路由有一个 name，并且已经有一个与之名字相同的路由，它会先删除之前的路由。 </span></span><br><span class="line"><span class="title function_">addRoute</span>(<span class="attr">parentName</span>: string | symbol, <span class="attr">route</span>: <span class="title class_">RouteRecordRaw</span>): <span class="function">() =&gt;</span> <span class="keyword">void</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>在 router.beforeEach 中判断权限和信息之后，调用addRoute方法</p>
-<p>不同的是需要配置一个条件用来结束循环 搭配以下next写法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line">next(&#123;...to, replace: true &#125;)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加404匹配</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flag = <span class="literal">false</span>;</span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to,<span class="keyword">from</span>,next</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!flag) &#123;</span><br><span class="line">        <span class="comment">//异步代码回调中执行以下操作</span></span><br><span class="line">        router.<span class="title function_">addRoute</span>(&#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&quot;/:catchAll(.*)*&quot;</span>,</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;@/component&#x27;</span>)</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        dynamicRoutes.<span class="title function_">forEach</span>(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span><br><span class="line">            router.<span class="title function_">addRoute</span>(route.<span class="property">parent</span>, route)</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 动态路由添加完成后修改flag，表明已经添加完成 正常调用next方法</span></span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">        <span class="title function_">next</span>(&#123; ...to, <span class="attr">replace</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">next</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/22/task-context/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/22/task-context/" class="post-title-link" itemprop="url">task-context</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-22 22:09:31" itemprop="dateCreated datePublished" datetime="2022-05-22T22:09:31+08:00">2022-05-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-28 21:18:08" itemprop="dateModified" datetime="2022-05-28T21:18:08+08:00">2022-05-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>异步任务中存在宏任务和微任务</p>
-<p>执行顺序</p>
-<p>同步任务=&gt; 异步任务</p>
-<p>同步代码执行<br>遇见宏任务 放入宏任务队列<br>遇见微任务 放入微任务队列<br>当执行栈为空时<br>取出微任务执行<br>微任务执行完后<br>取出宏任务执行<br>每个宏任务之后会检查微任务队列，清空微任务再执行宏任务</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/19/form-component/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/19/form-component/" class="post-title-link" itemprop="url">formComponent</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-19 21:48:41" itemprop="dateCreated datePublished" datetime="2022-05-19T21:48:41+08:00">2022-05-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-28 21:18:14" itemprop="dateModified" datetime="2022-05-28T21:18:14+08:00">2022-05-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><big><strong>两种封装Form的方法对比</strong></big></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常用数据源   组件库用的iview-design</span></span><br><span class="line"></span><br><span class="line"><span class="attr">props</span>: &#123;</span><br><span class="line">    <span class="attr">formInits</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;Input&#x27;</span>,</span><br><span class="line">                <span class="attr">label</span>: <span class="string">&#x27;我是测试label1&#x27;</span>,</span><br><span class="line">                <span class="attr">formKey</span>: <span class="string">&#x27;name&#x27;</span>,</span><br><span class="line">                <span class="attr">value</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                <span class="attr">attrs</span>: &#123;</span><br><span class="line">                    <span class="attr">placeholder</span>: <span class="string">&#x27;我是测试placeholder&#x27;</span>,</span><br><span class="line">                    <span class="attr">size</span>: <span class="string">&#x27;small&#x27;</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">listeners</span>: &#123;</span><br><span class="line">                    <span class="string">&#x27;on-change&#x27;</span>: <span class="keyword">function</span>(<span class="params">ev</span>)&#123;</span><br><span class="line">                        <span class="variable language_">console</span>.<span class="title function_">log</span>(_this.<span class="property">$refs</span>.<span class="property">formWrapper</span>.<span class="property">$refs</span>.<span class="property">generateForm</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;Select&#x27;</span>,</span><br><span class="line">                <span class="attr">label</span>: <span class="string">&#x27;我是测试label2-select&#x27;</span>,</span><br><span class="line">                <span class="attr">formKey</span>: <span class="string">&#x27;year&#x27;</span>,</span><br><span class="line">                <span class="attr">value</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                <span class="attr">options</span>: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">label</span>: <span class="number">2021</span>,</span><br><span class="line">                        <span class="attr">value</span>: <span class="number">2021</span></span><br><span class="line">                    &#125;,</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">label</span>: <span class="number">2022</span>,</span><br><span class="line">                        <span class="attr">value</span>: <span class="number">2022</span></span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">attrs</span>: &#123;</span><br><span class="line">                    <span class="attr">placeholder</span>: <span class="string">&#x27;请选择!!&#x27;</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>使用template语法</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Form</span> ref=<span class="string">&quot;generateForm&quot;</span> :model=<span class="string">&#x27;formState&#x27;</span> :rules=<span class="string">&#x27;rules&#x27;</span>&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">FormItem</span> <span class="attr">:label</span>=<span class="string">&#x27;item.label&#x27;</span> <span class="attr">:prop</span>=<span class="string">&quot;item.formKey&quot;</span> <span class="attr">v-for</span>=<span class="string">&quot;item in formInits&quot;</span> <span class="attr">:key</span>=<span class="string">&#x27;item.formKey&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Input</span> <span class="attr">v-if</span>=<span class="string">&quot;item.type === &#x27;Input&#x27;&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">v-bind</span>=<span class="string">&#x27;item.attrs&#x27;</span> <span class="attr">v-on</span>=<span class="string">&quot;item.listeners&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">Input</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Select</span> <span class="attr">v-else-if</span>=<span class="string">&quot;item.type === &#x27;Select&#x27;&quot;</span> <span class="attr">v-bind</span>=<span class="string">&#x27;item.attrs&#x27;</span> <span class="attr">v-on</span>=<span class="string">&quot;item.listeners&quot;</span>&gt;</span> </span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Option</span> <span class="attr">v-for</span>=<span class="string">&#x27;opt in item.options&#x27;</span> <span class="attr">:key</span>=<span class="string">&#x27;opt.value&#x27;</span> <span class="attr">:value</span>=<span class="string">&#x27;opt.value&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">FormItem</span>&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">Form</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>使用render语法</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里更加推荐安装JSX-loader 就没有这么痛苦</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">render</span>(<span class="params">createElement</span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">returnFormSlot</span> = (<span class="params">&#123; type, options &#125;</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">switch</span>(type) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;Input&#x27;</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;Select&#x27;</span>:</span><br><span class="line">                <span class="keyword">return</span> options &amp;&amp; options.<span class="title function_">map</span>(<span class="function"><span class="params">option</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="title function_">createElement</span>(<span class="string">&#x27;Option&#x27;</span>, &#123;</span><br><span class="line">                        <span class="attr">props</span>: &#123;</span><br><span class="line">                            <span class="attr">key</span>: option.<span class="property">value</span>,</span><br><span class="line">                            <span class="attr">value</span>: option.<span class="property">value</span>,</span><br><span class="line">                        &#125;,</span><br><span class="line">                    &#125;, option.<span class="property">label</span>)</span><br><span class="line">                &#125;)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">createElement</span>(<span class="string">&#x27;Form&#x27;</span>, </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">ref</span>: <span class="string">&#x27;generateForm&#x27;</span>,</span><br><span class="line">        <span class="attr">props</span>: &#123;</span><br><span class="line">            <span class="attr">model</span>: <span class="variable language_">this</span>.<span class="property">formState</span>,</span><br><span class="line">            <span class="attr">rules</span>: <span class="variable language_">this</span>.<span class="property">rules</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, </span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">formInits</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">createElement</span>(<span class="string">&#x27;FormItem&#x27;</span>, &#123;</span><br><span class="line">            <span class="attr">props</span>: &#123;</span><br><span class="line">                <span class="attr">label</span>: item.<span class="property">label</span>,</span><br><span class="line">                <span class="attr">prop</span>: item.<span class="property">formKey</span>,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,[<span class="title function_">createElement</span>(item.<span class="property">type</span>, &#123; <span class="attr">props</span>: item.<span class="property">attrs</span>, <span class="attr">on</span>: item.<span class="property">listeners</span> &#125;, </span><br><span class="line">            <span class="title function_">returnFormSlot</span>(item)</span><br><span class="line">        )])</span><br><span class="line">    &#125;)</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/10/canvas-water-print/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/10/canvas-water-print/" class="post-title-link" itemprop="url">canvas-water-print</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-10 21:37:10" itemprop="dateCreated datePublished" datetime="2022-05-10T21:37:10+08:00">2022-05-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-28 21:18:23" itemprop="dateModified" datetime="2022-05-28T21:18:23+08:00">2022-05-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><big><strong>Canvas生产base64的水印</strong></big></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setWaterPrint</span>(<span class="params">str, elem, fs, color</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(elem &amp;&amp; elem.<span class="property">nodeType</span>) &#123;</span><br><span class="line">        elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Invalid Target&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.<span class="property">width</span> = <span class="number">250</span>;</span><br><span class="line">    canvas.<span class="property">height</span> = <span class="number">200</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">rotate</span>( (<span class="title class_">Math</span>.<span class="property">PI</span> * - <span class="number">10</span>) / <span class="number">180</span> );</span><br><span class="line">    ctx.<span class="property">font</span> = fs || <span class="string">&#x27;16px Microsoft YaHei&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = color || <span class="string">&#x27;rgba(200,200,200, 0.3)&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&#x27;center&#x27;</span></span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&#x27;Middle&#x27;</span>;</span><br><span class="line">    ctx.<span class="title function_">fillText</span>(str, canvas.<span class="property">width</span> / <span class="number">10</span>, canvas.<span class="property">height</span> / <span class="number">2</span>);</span><br><span class="line">    elem.<span class="property">style</span>.<span class="property">backgroundImage</span> = <span class="string">&quot;url(&quot;</span> + can.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绑定到Dom上</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -941,7 +943,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -975,7 +977,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
