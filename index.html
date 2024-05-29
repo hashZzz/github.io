@@ -184,68 +184,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/canvas-water-print/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/29/canvas-water-print/" class="post-title-link" itemprop="url">canvas-water-print</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-05-29 21:37:10 / 修改时间：20:29:18" itemprop="dateCreated datePublished" datetime="2024-05-29T21:37:10+08:00">2024-05-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><big><strong>Canvas生产base64的水印</strong></big></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setWaterPrint</span>(<span class="params">str, elem, fs, color</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(elem &amp;&amp; elem.<span class="property">nodeType</span>) &#123;</span><br><span class="line">        elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Invalid Target&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.<span class="property">width</span> = <span class="number">250</span>;</span><br><span class="line">    canvas.<span class="property">height</span> = <span class="number">200</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">rotate</span>( (<span class="title class_">Math</span>.<span class="property">PI</span> * - <span class="number">10</span>) / <span class="number">180</span> );</span><br><span class="line">    ctx.<span class="property">font</span> = fs || <span class="string">&#x27;16px Microsoft YaHei&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = color || <span class="string">&#x27;rgba(200,200,200, 0.3)&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&#x27;center&#x27;</span></span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&#x27;Middle&#x27;</span>;</span><br><span class="line">    ctx.<span class="title function_">fillText</span>(str, canvas.<span class="property">width</span> / <span class="number">10</span>, canvas.<span class="property">height</span> / <span class="number">2</span>);</span><br><span class="line">    elem.<span class="property">style</span>.<span class="property">backgroundImage</span> = <span class="string">&quot;url(&quot;</span> + can.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>功能增强，防止用户删除Element元素 使用Class封装</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WaterMark</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">el, content</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">el</span> = el;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">content</span> = content;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">config</span> = &#123; <span class="attr">attributes</span>: <span class="literal">true</span>, <span class="attr">childList</span>: <span class="literal">true</span>, <span class="attr">subtree</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">init</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createContext</span>(<span class="variable language_">this</span>.<span class="property">el</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createContext</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; offsetWidth, offsetHeight &#125; = elem;</span><br><span class="line">    <span class="keyword">const</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">    canvas.<span class="property">width</span> = offsetWidth;</span><br><span class="line">    canvas.<span class="property">height</span> = offsetHeight;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">position</span> = <span class="string">&quot;absolute&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">pointerEvents</span> = <span class="string">&quot;none&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">top</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">left</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">zIndex</span> = <span class="string">&quot;99&quot;</span>;</span><br><span class="line">    ctx.<span class="property">font</span> = <span class="string">&quot;24px serif&quot;</span>;</span><br><span class="line">    ctx.<span class="title function_">rotate</span>((-<span class="number">20</span> * <span class="title class_">Math</span>.<span class="property">PI</span>) / <span class="number">180</span>);</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = <span class="string">&quot;rgba(180, 180, 180, 0.6)&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&quot;left&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&quot;middle&quot;</span>;</span><br><span class="line">    <span class="comment">//   循环在canvas中渲染</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; canvas.<span class="property">width</span> / <span class="number">100</span>; i++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; canvas.<span class="property">height</span> / <span class="number">50</span>; j++) &#123;</span><br><span class="line">        ctx.<span class="title function_">fillText</span>(<span class="variable language_">this</span>.<span class="property">content</span>, i * <span class="number">200</span>, j * <span class="number">100</span> + <span class="number">20</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createObserver</span>(elem);</span><br><span class="line">    <span class="comment">// 添加监听</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createObserver</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">observer</span>) <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">disconnect</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(<span class="function">(<span class="params">changeList, watcher</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="title class_">Array</span>.<span class="title function_">from</span>(changeList).<span class="title function_">forEach</span>(<span class="function">(<span class="params">record</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; removedNodes &#125; = record;</span><br><span class="line">        <span class="keyword">const</span> removeNodeNames = <span class="title class_">Array</span>.<span class="title function_">from</span>(removedNodes).<span class="title function_">map</span>(</span><br><span class="line">          <span class="function">(<span class="params">node</span>) =&gt;</span> node.<span class="property">nodeName</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">if</span> (removeNodeNames.<span class="title function_">includes</span>(<span class="string">&quot;CANVAS&quot;</span>)) &#123;</span><br><span class="line">          <span class="variable language_">window</span>.<span class="title function_">requestIdleCallback</span>(<span class="function">() =&gt;</span> <span class="variable language_">this</span>.<span class="title function_">createContext</span>(elem), &#123;</span><br><span class="line">            <span class="attr">timeout</span>: <span class="number">300</span>,</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">observe</span>(elem, <span class="variable language_">this</span>.<span class="property">config</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> elem = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;content&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> waterMark = <span class="keyword">new</span> <span class="title class_">WaterMark</span>(elem, <span class="string">&quot;hello, world&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/MapVsWeakMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -298,6 +236,68 @@
 <p>WeakMap 是一种弱引用的键值对类型，键只能是对象，且如果对象没有被引用，那么就会被垃圾回收处理掉，WeakMap也不能枚举，无法使用forEach，keys，values，entries等方法，一般用Dom作为键比较场景，当Dom移除之后会自动清理</p>
 <p>WeakSet同理</p>
 
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/canvas-water-print/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/29/canvas-water-print/" class="post-title-link" itemprop="url">canvas-water-print</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-29 21:37:10 / 修改时间：20:29:18" itemprop="dateCreated datePublished" datetime="2024-05-29T21:37:10+08:00">2024-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><big><strong>Canvas生产base64的水印</strong></big></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">setWaterPrint</span>(<span class="params">str, elem, fs, color</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span>(elem &amp;&amp; elem.<span class="property">nodeType</span>) &#123;</span><br><span class="line">        elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Invalid Target&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    canvas.<span class="property">width</span> = <span class="number">250</span>;</span><br><span class="line">    canvas.<span class="property">height</span> = <span class="number">200</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">rotate</span>( (<span class="title class_">Math</span>.<span class="property">PI</span> * - <span class="number">10</span>) / <span class="number">180</span> );</span><br><span class="line">    ctx.<span class="property">font</span> = fs || <span class="string">&#x27;16px Microsoft YaHei&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = color || <span class="string">&#x27;rgba(200,200,200, 0.3)&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&#x27;center&#x27;</span></span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&#x27;Middle&#x27;</span>;</span><br><span class="line">    ctx.<span class="title function_">fillText</span>(str, canvas.<span class="property">width</span> / <span class="number">10</span>, canvas.<span class="property">height</span> / <span class="number">2</span>);</span><br><span class="line">    elem.<span class="property">style</span>.<span class="property">backgroundImage</span> = <span class="string">&quot;url(&quot;</span> + can.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>功能增强，防止用户删除Element元素 使用Class封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WaterMark</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">el, content</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">el</span> = el;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">content</span> = content;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">config</span> = &#123; <span class="attr">attributes</span>: <span class="literal">true</span>, <span class="attr">childList</span>: <span class="literal">true</span>, <span class="attr">subtree</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">init</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createContext</span>(<span class="variable language_">this</span>.<span class="property">el</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createContext</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; offsetWidth, offsetHeight &#125; = elem;</span><br><span class="line">    <span class="keyword">const</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">    canvas.<span class="property">width</span> = offsetWidth;</span><br><span class="line">    canvas.<span class="property">height</span> = offsetHeight;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">position</span> = <span class="string">&quot;absolute&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">pointerEvents</span> = <span class="string">&quot;none&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">top</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">left</span> = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">    canvas.<span class="property">style</span>.<span class="property">zIndex</span> = <span class="string">&quot;99&quot;</span>;</span><br><span class="line">    ctx.<span class="property">font</span> = <span class="string">&quot;24px serif&quot;</span>;</span><br><span class="line">    ctx.<span class="title function_">rotate</span>((-<span class="number">20</span> * <span class="title class_">Math</span>.<span class="property">PI</span>) / <span class="number">180</span>);</span><br><span class="line">    ctx.<span class="property">fillStyle</span> = <span class="string">&quot;rgba(180, 180, 180, 0.6)&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textAlign</span> = <span class="string">&quot;left&quot;</span>;</span><br><span class="line">    ctx.<span class="property">textBaseline</span> = <span class="string">&quot;middle&quot;</span>;</span><br><span class="line">    <span class="comment">//   循环在canvas中渲染</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; canvas.<span class="property">width</span> / <span class="number">100</span>; i++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; canvas.<span class="property">height</span> / <span class="number">50</span>; j++) &#123;</span><br><span class="line">        ctx.<span class="title function_">fillText</span>(<span class="variable language_">this</span>.<span class="property">content</span>, i * <span class="number">200</span>, j * <span class="number">100</span> + <span class="number">20</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    elem.<span class="title function_">appendChild</span>(canvas);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">createObserver</span>(elem);</span><br><span class="line">    <span class="comment">// 添加监听</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">createObserver</span>(<span class="params">elem</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">observer</span>) <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">disconnect</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span> = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(<span class="function">(<span class="params">changeList, watcher</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="title class_">Array</span>.<span class="title function_">from</span>(changeList).<span class="title function_">forEach</span>(<span class="function">(<span class="params">record</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; removedNodes &#125; = record;</span><br><span class="line">        <span class="keyword">const</span> removeNodeNames = <span class="title class_">Array</span>.<span class="title function_">from</span>(removedNodes).<span class="title function_">map</span>(</span><br><span class="line">          <span class="function">(<span class="params">node</span>) =&gt;</span> node.<span class="property">nodeName</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">if</span> (removeNodeNames.<span class="title function_">includes</span>(<span class="string">&quot;CANVAS&quot;</span>)) &#123;</span><br><span class="line">          <span class="variable language_">window</span>.<span class="title function_">requestIdleCallback</span>(<span class="function">() =&gt;</span> <span class="variable language_">this</span>.<span class="title function_">createContext</span>(elem), &#123;</span><br><span class="line">            <span class="attr">timeout</span>: <span class="number">300</span>,</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observer</span>.<span class="title function_">observe</span>(elem, <span class="variable language_">this</span>.<span class="property">config</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> elem = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;content&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> waterMark = <span class="keyword">new</span> <span class="title class_">WaterMark</span>(elem, <span class="string">&quot;hello, world&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -375,78 +375,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/vue-better/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/08/vue-better/" class="post-title-link" itemprop="url">Vue面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-05-08 21:48:41 / 修改时间：22:04:50" itemprop="dateCreated datePublished" datetime="2023-05-08T21:48:41+08:00">2023-05-08</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Vue面试题"><a href="#Vue面试题" class="headerlink" title="Vue面试题"></a>Vue面试题</h2><p>1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if<br>2、列表标记key<br>3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze<br>4、路由异步加载<br>5、UI组件库按需引入<br>6、抽离公共代码，使用mixin</p>
-<p>Vue组件通信的方法</p>
-<p>1、通过props<br>2、用过$bus $emit触发自定义事件<br>3、使用$ref<br>4、使用$parent和$children<br>5、使用attrs和$listeners<br>6、Provider和Inject<br>7、Vuex<br>8、V-model和$emit update</p>
-<p>Vue中$nextTick怎么用的，实现原理是什么？</p>
-<p>$nextTick用于Dom更新更新结束后执行的回调，修改数据后立刻调用这个方法，可以获取更新后的Dom，在created中访问DOM可以使用这个方法</p>
-<p>当数据发生变化时,Vue将回调放入异步更新队列，等队列中所有的数据变化完后再统一更新，不然每次更新数据都会触发更新<br>具体代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const callbacks = []</span><br><span class="line">let pending = false</span><br><span class="line"></span><br><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  // 用 callbacks 数组存储经过包装的 cb 函数</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      // 用 try catch 包装回调函数，便于错误捕获</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &#x27;nextTick&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    pending = true</span><br><span class="line">    // 执行 timerFunc，在浏览器的任务队列中（首选微任务队列）放入 flushCallbacks 函数</span><br><span class="line">    timerFunc()</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &#x27;undefined&#x27;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>虚拟DOM是什么？</p>
-<p>虚拟Dom实际上是把Dom节点的attributes、Event、Content等等以对象的形式储存，通过Compiler将对象转化为HTMl结构的</p>
-<p>为什么组件的data属性是一个函数，而不是对象</p>
-<p>我们通过Vue.component创建多个组件的时候，如果data是一个属性，那么就会共用这个data，修改A也会影响B，当使用function return data的时候，就隔绝了相互之间的影响</p>
-<p>Vue的初始化过程你有了解过吗？做过哪些事情</p>
-<p>第一步是接收用户自定义的一些配置，和Vue自己定义的一些策略进行合并<br>第二步是初始化生命周期、事件、data、props、computed、watcher、调用周期钩子<br>第三步：使用$mount挂载</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/js-better/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -503,6 +431,78 @@
 <p>作用域是定义变量的区域，也是词法作用域，在这个区域内决定了变量和其他资源的可见性<br>在函数内部可以向父级访问变量，而函数外部不能访问函数内部的值<br>由这种关系组成的链条就叫作用域链</p>
 <p>5、什么情况会造成内存泄漏？<br>全局变量、闭包、遗忘的定时器</p>
 <p>6、ES6新增了哪些东西 Promise、箭头函数、类、解构赋值、let、const声明、Symbol、Map、Set、模板字符串、模块化、Proxy、函数默认参数、点运算符</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/08/vue-better/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/08/vue-better/" class="post-title-link" itemprop="url">Vue面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-08 21:48:41 / 修改时间：22:04:50" itemprop="dateCreated datePublished" datetime="2023-05-08T21:48:41+08:00">2023-05-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vue面试题"><a href="#Vue面试题" class="headerlink" title="Vue面试题"></a>Vue面试题</h2><p>1、v-if和v-show的频繁切换，利用其缓存特性，首屏使用v-if<br>2、列表标记key<br>3、数据响应式处理，如果不需要响应式处理的数据增加Object.freeze<br>4、路由异步加载<br>5、UI组件库按需引入<br>6、抽离公共代码，使用mixin</p>
+<p>Vue组件通信的方法</p>
+<p>1、通过props<br>2、用过$bus $emit触发自定义事件<br>3、使用$ref<br>4、使用$parent和$children<br>5、使用attrs和$listeners<br>6、Provider和Inject<br>7、Vuex<br>8、V-model和$emit update</p>
+<p>Vue中$nextTick怎么用的，实现原理是什么？</p>
+<p>$nextTick用于Dom更新更新结束后执行的回调，修改数据后立刻调用这个方法，可以获取更新后的Dom，在created中访问DOM可以使用这个方法</p>
+<p>当数据发生变化时,Vue将回调放入异步更新队列，等队列中所有的数据变化完后再统一更新，不然每次更新数据都会触发更新<br>具体代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const callbacks = []</span><br><span class="line">let pending = false</span><br><span class="line"></span><br><span class="line">export function nextTick (cb?: Function, ctx?: Object) &#123;</span><br><span class="line">  let _resolve</span><br><span class="line">  // 用 callbacks 数组存储经过包装的 cb 函数</span><br><span class="line">  callbacks.push(() =&gt; &#123;</span><br><span class="line">    if (cb) &#123;</span><br><span class="line">      // 用 try catch 包装回调函数，便于错误捕获</span><br><span class="line">      try &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, ctx, &#x27;nextTick&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  if (!pending) &#123;</span><br><span class="line">    pending = true</span><br><span class="line">    // 执行 timerFunc，在浏览器的任务队列中（首选微任务队列）放入 flushCallbacks 函数</span><br><span class="line">    timerFunc()</span><br><span class="line">  &#125;</span><br><span class="line">  // $flow-disable-line</span><br><span class="line">  if (!cb &amp;&amp; typeof Promise !== &#x27;undefined&#x27;) &#123;</span><br><span class="line">    return new Promise(resolve =&gt; &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>虚拟DOM是什么？</p>
+<p>虚拟Dom实际上是把Dom节点的attributes、Event、Content等等以对象的形式储存，通过Compiler将对象转化为HTMl结构的</p>
+<p>为什么组件的data属性是一个函数，而不是对象</p>
+<p>我们通过Vue.component创建多个组件的时候，如果data是一个属性，那么就会共用这个data，修改A也会影响B，当使用function return data的时候，就隔绝了相互之间的影响</p>
+<p>Vue的初始化过程你有了解过吗？做过哪些事情</p>
+<p>第一步是接收用户自定义的一些配置，和Vue自己定义的一些策略进行合并<br>第二步是初始化生命周期、事件、data、props、computed、watcher、调用周期钩子<br>第三步：使用$mount挂载</p>
 
       
     </div>
