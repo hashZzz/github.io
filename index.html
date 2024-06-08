@@ -316,6 +316,71 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/05/29/Fetch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="😈Ray">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DJ1-1 1vU">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/29/Fetch/" class="post-title-link" itemprop="url">封装一个FetchClient</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-29 21:37:10" itemprop="dateCreated datePublished" datetime="2024-05-29T21:37:10+08:00">2024-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-08 14:05:22" itemprop="dateModified" datetime="2024-06-08T14:05:22+08:00">2024-06-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><big>Fetch</big></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> interface <span class="title class_">IRequestData</span> <span class="keyword">extends</span> <span class="title class_">RequestInit</span> &#123;</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span> | <span class="string">&#x27;POST&#x27;</span> | <span class="string">&#x27;PUT&#x27;</span> | <span class="string">&quot;DELETE&quot;</span> | <span class="string">&#x27;OPTIONS&#x27;</span></span><br><span class="line">  headers?: <span class="title class_">Record</span>&lt;string, string&gt;</span><br><span class="line">  body?: string,</span><br><span class="line">  timeout?: number</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 请求拦截器返回的是一个Promise 新的配置</span></span><br><span class="line">type <span class="title class_">RequestInterceptor</span> = <span class="function">(<span class="params">url: string, options: IRequestData</span>) =&gt;</span> <span class="title class_">Promise</span>&lt;[string, <span class="title class_">IRequestData</span>]&gt; | [string, <span class="title class_">IRequestData</span>];</span><br><span class="line"><span class="comment">// 响应返回的是一个泛型</span></span><br><span class="line">type <span class="title class_">ResponseInterceptor</span>&lt;T&gt; = <span class="function">(<span class="params">response: T, options: IRequestData</span>) =&gt;</span> <span class="title class_">Promise</span>&lt;T&gt; | T;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">HttpClient</span> &#123;</span><br><span class="line">  private <span class="attr">defaultTimeout</span>: number;</span><br><span class="line">  private <span class="attr">requestInterceptors</span>: <span class="title class_">RequestInterceptor</span>[];</span><br><span class="line">  private <span class="attr">responseInterceptors</span>: <span class="title class_">ResponseInterceptor</span>&lt;any&gt;[];</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">defaultTimeout: number = <span class="number">10000</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">defaultTimeout</span> = defaultTimeout;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">requestInterceptors</span> = [];</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">responseInterceptors</span> = [];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加请求拦截器</span></span><br><span class="line">  public <span class="title function_">addRequestInterceptor</span>(<span class="attr">interceptor</span>: <span class="title class_">RequestInterceptor</span>): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">requestInterceptors</span>.<span class="title function_">push</span>(interceptor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加响应拦截器</span></span><br><span class="line">  public addResponseInterceptor&lt;T&gt;(<span class="attr">interceptor</span>: <span class="title class_">ResponseInterceptor</span>&lt;T&gt;): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">responseInterceptors</span>.<span class="title function_">push</span>(interceptor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private <span class="keyword">async</span> <span class="title function_">applyRequestInterceptors</span>(<span class="attr">url</span>: string, <span class="attr">options</span>: <span class="title class_">IRequestData</span>): <span class="title class_">Promise</span>&lt;[string, <span class="title class_">IRequestData</span>]&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="attr">result</span>: [string, <span class="title class_">IRequestData</span>] = [url, options];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> interceptor <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">requestInterceptors</span>) &#123;</span><br><span class="line">      result = <span class="keyword">await</span> <span class="title function_">interceptor</span>(...result);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private <span class="keyword">async</span> applyResponseInterceptors&lt;T&gt;(<span class="attr">response</span>: T, <span class="attr">options</span>: <span class="title class_">IRequestData</span>): <span class="title class_">Promise</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> result = response;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> interceptor <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">responseInterceptors</span>) &#123;</span><br><span class="line">      result = <span class="keyword">await</span> <span class="title function_">interceptor</span>(result, options);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// fetch 后面的&lt;T&gt;表示接受一个&lt;T&gt;类型  后面的Promise&lt;T&gt;是一个返回类型</span></span><br><span class="line">  public <span class="keyword">async</span> fetch&lt;T&gt;(<span class="attr">url</span>: string, <span class="attr">options</span>: <span class="title class_">IRequestData</span>): <span class="title class_">Promise</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; timeout = <span class="variable language_">this</span>.<span class="property">defaultTimeout</span>, ...fetchOptions &#125; = options;</span><br><span class="line">    <span class="keyword">const</span> [interceptedUrl, interceptedOptions] = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="title function_">applyRequestInterceptors</span>(url, &#123; timeout, ...fetchOptions &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>&lt;T&gt;(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> controller = <span class="keyword">new</span> <span class="title class_">AbortController</span>();</span><br><span class="line">      <span class="keyword">const</span> signal = controller.<span class="property">signal</span>;</span><br><span class="line"></span><br><span class="line">      interceptedOptions.<span class="property">signal</span> = signal;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        controller.<span class="title function_">abort</span>();</span><br><span class="line">        <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;请求超时&#x27;</span>));</span><br><span class="line">      &#125;, timeout);</span><br><span class="line"></span><br><span class="line">      <span class="title function_">fetch</span>(interceptedUrl, interceptedOptions)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="keyword">async</span> response =&gt; &#123;</span><br><span class="line">          <span class="built_in">clearTimeout</span>(timer);</span><br><span class="line">          <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> errorText = <span class="keyword">await</span> response.<span class="title function_">text</span>();</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(errorText || <span class="string">&#x27;请求失败&#x27;</span>));</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> jsonResponse = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">            <span class="keyword">const</span> interceptedResponse = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="title function_">applyResponseInterceptors</span>(jsonResponse, interceptedOptions);</span><br><span class="line">            <span class="title function_">resolve</span>(interceptedResponse <span class="keyword">as</span> T);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (error.<span class="property">name</span> === <span class="string">&#x27;AbortError&#x27;</span>) &#123;</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;请求被中止&#x27;</span>));</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_">reject</span>(error);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  public <span class="title function_">cancel</span>(<span class="attr">controller</span>: <span class="title class_">AbortController</span>): <span class="keyword">void</span> &#123;</span><br><span class="line">    controller.<span class="title function_">abort</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建一个新的 AbortController 实例的方法</span></span><br><span class="line">  public <span class="title function_">createAbortController</span>(): <span class="title class_">AbortController</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AbortController</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//  代码使用</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">HttpClient</span>, &#123; <span class="title class_">IRequestData</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./fetch&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">IApiResponse</span> &#125; <span class="keyword">from</span> <span class="string">&quot;@/types&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> httpClient = <span class="keyword">new</span> <span class="title class_">HttpClient</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> abortControl = httpClient.<span class="title function_">createAbortController</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> get = (<span class="attr">url</span>: string, params?: <span class="title class_">Record</span>&lt;string, number | string&gt;, <span class="attr">options</span>: <span class="title class_">IRequestData</span> = &#123; <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span> &#125;): <span class="title class_">Promise</span>&lt;<span class="title class_">IApiResponse</span>&gt; =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> request_url = url;</span><br><span class="line">  <span class="keyword">if</span> (params) &#123;</span><br><span class="line">    request_url += <span class="string">&#x27;?&#x27;</span></span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">entries</span>(params).<span class="title function_">forEach</span>(<span class="function">(<span class="params">[key, value]</span>) =&gt;</span> &#123;</span><br><span class="line">      request_url += <span class="string">`<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;value&#125;</span>`</span>;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> httpClient.<span class="title function_">fetch</span>(request_url, options);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">post</span> = (<span class="params">url: string, options: IRequestData</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> httpClient.<span class="title function_">fetch</span>(url, options);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/11/css/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -812,68 +877,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2022/05/29/clouse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="😈Ray">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DJ1-1 1vU">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/29/clouse/" class="post-title-link" itemprop="url">clouse</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-29 10:08:20 / 修改时间：10:26:00" itemprop="dateCreated datePublished" datetime="2022-05-29T10:08:20+08:00">2022-05-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>谈到闭包 我理解应该先从js的作用域开始说起，由于JS是词法作用域<br>函数声明的时候相关的上下文环境已经确定<br>而由于作用域的特性（栈内存），函数可以向上访问作用域，但是不能向下访问<br>这个时候通过函数内部嵌套函数将作用域中保存的内容(AO,VO)返回出来</p>
-<p>我理解的闭包用一句话概括闭包就是保存了其他函数作用域的函数</p>
-<p>使用闭包应当注意，由于闭包保存在堆内存中，避免内存泄漏应当手动清除</p>
-<p>工作中常见的闭包使用场景：防抖节流中将setTimeout 定时器返回出来避免清除</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -943,14 +946,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
