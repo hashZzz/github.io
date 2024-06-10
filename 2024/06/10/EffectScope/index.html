@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"hashzzz.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="flexflex-direction决定主轴的的排列方向 row&#x2F;column -reverse row(默认) column垂直方向的排列flex-wrapnowrap wrap wrap-reverse 换行flex-flowwrap和direction的合并 row 和 nowrap是默认值justify-content主轴方向的排列对齐方式align-items交叉轴上的对齐方向项目的属性">
+  <meta name="description" content="EffectScope熟悉React的朋友可能知道useEffect这个Api，通过依赖项的变化来执行回调副作用函数来执行某些操作重写渲染UI。这个effectScope有点类似useEffect首先呢需要通过effectScope来创建一个副作用执行器 123456789101112131415161718scope &#x3D; effectScope(true)  &#x2F;&#x2F; 执行器scope.run(()">
 <meta property="og:type" content="article">
-<meta property="og:title" content="css面试题">
-<meta property="og:url" content="http://hashzzz.github.io/2023/05/11/css/index.html">
+<meta property="og:title" content="Vue3的EffectScope是什么？">
+<meta property="og:url" content="http://hashzzz.github.io/2024/06/10/EffectScope/index.html">
 <meta property="og:site_name" content="DJ1-1 1vU">
-<meta property="og:description" content="flexflex-direction决定主轴的的排列方向 row&#x2F;column -reverse row(默认) column垂直方向的排列flex-wrapnowrap wrap wrap-reverse 换行flex-flowwrap和direction的合并 row 和 nowrap是默认值justify-content主轴方向的排列对齐方式align-items交叉轴上的对齐方向项目的属性">
+<meta property="og:description" content="EffectScope熟悉React的朋友可能知道useEffect这个Api，通过依赖项的变化来执行回调副作用函数来执行某些操作重写渲染UI。这个effectScope有点类似useEffect首先呢需要通过effectScope来创建一个副作用执行器 123456789101112131415161718scope &#x3D; effectScope(true)  &#x2F;&#x2F; 执行器scope.run(()">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-11T13:48:41.000Z">
-<meta property="article:modified_time" content="2023-05-11T12:14:38.313Z">
+<meta property="article:published_time" content="2024-06-10T13:08:20.000Z">
+<meta property="article:modified_time" content="2024-06-10T13:19:33.441Z">
 <meta property="article:author" content="😈Ray">
-<meta property="article:tag" content="面试题">
+<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://hashzzz.github.io/2023/05/11/css/">
+<link rel="canonical" href="http://hashzzz.github.io/2024/06/10/EffectScope/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>css面试题 | DJ1-1 1vU</title>
+  <title>Vue3的EffectScope是什么？ | DJ1-1 1vU</title>
   
 
 
@@ -189,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2023/05/11/css/">
+    <link itemprop="mainEntityOfPage" href="http://hashzzz.github.io/2024/06/10/EffectScope/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          css面试题
+          Vue3的EffectScope是什么？
         </h1>
 
         <div class="post-meta">
@@ -213,7 +213,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-05-11 21:48:41 / 修改时间：20:14:38" itemprop="dateCreated datePublished" datetime="2023-05-11T21:48:41+08:00">2023-05-11</time>
+              <time title="创建时间：2024-06-10 21:08:20 / 修改时间：21:19:33" itemprop="dateCreated datePublished" datetime="2024-06-10T21:08:20+08:00">2024-06-10</time>
             </span>
 
           
@@ -227,37 +227,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h2><p><code>flex-direction</code><br>决定主轴的的排列方向 row/column -reverse row(默认) column垂直方向的排列<br><code>flex-wrap</code><br>nowrap wrap wrap-reverse 换行<br><code>flex-flow</code><br>wrap和direction的合并 row 和 nowrap是默认值<br><code>justify-content</code><br>主轴方向的排列对齐方式<br><code>align-items</code><br>交叉轴上的对齐方向<br>项目的属性<br><code>order</code> 排序属性 越小越靠前<br><code>flex-grow</code> 放大比例<br><code>flex-shrink</code>缩小比例<br><code>align-self</code> 自身的排列方式</p>
+        <h2 id="EffectScope"><a href="#EffectScope" class="headerlink" title="EffectScope"></a>EffectScope</h2><p>熟悉React的朋友可能知道useEffect这个Api，通过依赖项的变化来执行回调副作用函数来执行某些操作重写渲染UI。这个effectScope有点类似useEffect<br>首先呢需要通过effectScope来创建一个副作用执行器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scope = <span class="title function_">effectScope</span>(<span class="literal">true</span>)  <span class="comment">// 执行器</span></span><br><span class="line">scope.<span class="title function_">run</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 这里做副作用函数的调用  </span></span><br><span class="line">  <span class="comment">// 比如说分页器的页码变化时，来动态的更新分页的数据</span></span><br><span class="line">  <span class="title function_">watch</span>(<span class="function">() =&gt;</span> pagination, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">fetchList</span>(pagination)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当用户离开页面的时候清除副作用函数</span></span><br><span class="line">scope.<span class="title function_">stop</span>()</span><br><span class="line"><span class="comment">// 同时需要销毁一些定时器、监听等等</span></span><br><span class="line"><span class="title function_">onScopeDispose</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">clearInterval</span>();</span><br><span class="line">  domElem = <span class="literal">null</span>;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>我在unMounted中解绑 也是一样的效果，为什么要出这么一个Api</p>
+<p>答案就是方便Hooks开发，在我们去写一些hooks逻辑的时候，如果用到了Dom元素 或者全局的一些生命周期，我们也能希望像React那样可以在useEffect的返回回调中销毁。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; ref, onScopeDispose, effectScope, <span class="title class_">Ref</span>, <span class="title class_">EffectScope</span> &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span></span><br><span class="line"></span><br><span class="line">interface <span class="title class_">IPosition</span> &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="title class_">Ref</span>&lt;number&gt;</span><br><span class="line">  <span class="attr">y</span>: <span class="title class_">Ref</span>&lt;number&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">useMouse</span>(<span class="params"></span>): <span class="title class_">IPosition</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> x = ref&lt;number&gt;(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> y = ref&lt;number&gt;(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">handler</span>(<span class="params">e: any</span>) &#123;</span><br><span class="line">    x.<span class="property">value</span> = e.<span class="property">x</span></span><br><span class="line">    y.<span class="property">value</span> = e.<span class="property">y</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;mousemove&#x27;</span>, handler)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">onScopeDispose</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;mousemove&#x27;</span>, handler)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; x, y &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createSharedComposable</span>(<span class="params">composable: () =&gt; IPosition</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> subscribers = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> <span class="attr">state</span>: <span class="title class_">IPosition</span> | <span class="literal">null</span> | <span class="literal">undefined</span>, <span class="attr">scope</span>: <span class="title class_">EffectScope</span> | <span class="literal">null</span></span><br><span class="line">  <span class="comment">// 这个是解绑函数 运用闭包将state和scope保存下来了， 返回了一个闭包保存他们</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">dispose</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (scope &amp;&amp; --subscribers &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      scope.<span class="title function_">stop</span>()</span><br><span class="line">      state = scope = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 当我们调用返回的回调的时候  就会返回整个state</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    subscribers++</span><br><span class="line">    <span class="keyword">if</span> (!state) &#123;</span><br><span class="line">      scope = <span class="title function_">effectScope</span>(<span class="literal">true</span>)</span><br><span class="line">      <span class="comment">// state是什么？  是useMouse的返回值</span></span><br><span class="line">      state = scope.<span class="title function_">run</span>(<span class="function">() =&gt;</span> <span class="title function_">composable</span>())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// onScopeDispose  当Effect销毁的时候会调用这个函数销毁</span></span><br><span class="line">    <span class="title function_">onScopeDispose</span>(dispose)</span><br><span class="line">    <span class="keyword">return</span> state</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useSharedMouse = <span class="title function_">createSharedComposable</span>(useMouse)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useSharedMouse</span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </div>
 
     
     
     
       
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2024\05\29\MapVsWeakMap\" rel="bookmark">Map、WeakMap、Set、WeakSet</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\05\29\clouse\" rel="bookmark">clouse</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2023\05\08\js-better\" rel="bookmark">JS面试题</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\05\28\prototype\" rel="bookmark">prototype</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\05\22\task-context\" rel="bookmark">task-context</a></div>
-    </li>
-  </ul>
 
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"># 面试题</a>
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
           </div>
 
         
@@ -266,13 +252,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/05/08/js-better/" rel="prev" title="JS面试题">
-      <i class="fa fa-chevron-left"></i> JS面试题
+    <a href="/2024/06/08/Fetch/" rel="prev" title="封装一个FetchClient">
+      <i class="fa fa-chevron-left"></i> 封装一个FetchClient
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/05/29/canvas-water-print/" rel="next" title="canvas-water-print">
-      canvas-water-print <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -332,7 +315,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#flex"><span class="nav-number">1.</span> <span class="nav-text">flex</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#EffectScope"><span class="nav-number">1.</span> <span class="nav-text">EffectScope</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -553,7 +536,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'hashzzz.github.io',
       owner       : 'hashZzz',
       admin       : ['hashZzz'],
-      id          : '2d32604e15ecc69308f4d17cbc5e53fd',
+      id          : '5612f39eedf4dd32e8c61df6b5445967',
         language: 'zh-CN',
       distractionFreeMode: true
     });
